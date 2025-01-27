@@ -315,6 +315,12 @@ reagent-effect-guidebook-movespeed-modifier =
         *[other] modify
     } movement speed by {NATURALFIXED($walkspeed, 3)}x for at least {NATURALFIXED($time, 3)} {MANY("second", $time)}
 
+reagent-effect-guidebook-attack-modifier =
+    { $chance ->
+        [1] Modifies
+        *[other] modify
+    } attack rate by {NATURALFIXED($attackrate, 2)}x for at least {NATURALFIXED($time, 3)} {MANY("second", $time)}
+
 reagent-effect-guidebook-reset-narcolepsy =
     { $chance ->
         [1] Temporarily staves

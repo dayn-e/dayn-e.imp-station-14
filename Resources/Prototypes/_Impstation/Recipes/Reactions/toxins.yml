@@ -7,3 +7,13 @@
       amount: 1
   products:
     AquaAvari: 1
+
+- type: reaction
+  id: Berserkium
+  reactants:
+    Vestine:
+      amount: 1
+    Desoxyephedrine:
+      amount: 1
+  products:
+    Berserkium: 1
