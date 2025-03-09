@@ -13,7 +13,7 @@ public sealed partial class UnarmedAttackModifier : EntityEffect
     /// How much the entities' attack rate is multiplied by.
     /// </summary>
     [DataField]
-    public float AttackRateModifier { get; set; } = 1;
+    public float AttackRateModifier { get; set; } = 4;
 
 
     /// <summary>
