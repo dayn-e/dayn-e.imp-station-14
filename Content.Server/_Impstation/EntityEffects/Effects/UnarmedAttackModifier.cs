@@ -38,6 +38,7 @@ public sealed partial class UnarmedAttackModifier : EntityEffect
     {
         var metabolismStatus = args.EntityManager.EnsureComponent<UnarmedAttackModifierMetabolismComponent>(args.TargetEntity);
         var weaponStatus = args.EntityManager.EnsureComponent<MeleeWeaponComponent>(args.TargetEntity);
+
         if (!metabolismStatus.BaseAttackTracked)
         {
             metabolismStatus.BaseAttackRate = weaponStatus.AttackRate;
@@ -58,7 +59,7 @@ public sealed partial class UnarmedAttackModifier : EntityEffect
         if (isModified)
         {
             args.EntityManager.System<UnarmedAttackModifierMetabolismSystem>()
-                .RefreshUnarmedAttackModifiers(args.TargetEntity, metabolismStatus, weaponStatus);
+                .RefreshUnarmedAttackModifier(args.TargetEntity, metabolismStatus, weaponStatus);
         }
     }
 
