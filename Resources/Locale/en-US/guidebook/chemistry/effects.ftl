@@ -315,7 +315,7 @@ reagent-effect-guidebook-movespeed-modifier =
         *[other] modify
     } movement speed by {NATURALFIXED($walkspeed, 3)}x for at least {NATURALFIXED($time, 3)} {MANY("second", $time)}
 
-reagent-effect-guidebook-attack-modifier =
+reagent-effect-guidebook-unarmed-attack-modifier =
     { $chance ->
         [1] Modifies
         *[other] modify
