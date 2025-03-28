@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
+using Content.Shared._Impstation.Weapons.Melee.Components;
 using Content.Shared.ActionBlocker;
 using Content.Shared.Administration.Logs;
 using Content.Shared.CombatMode;
@@ -302,6 +303,14 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
         // Use our own melee
         if (TryComp(entity, out melee))
         {
+            //imp change start
+            if (TryComp<BerserkComponent>(entity, out var berserk))
+            {
+                melee.AttackRate = berserk.AttackRate;
+                melee.AutoAttack = berserk.AutoAttack;
+            }
+            //imp change end
+
             weaponUid = entity;
             return true;
         }
