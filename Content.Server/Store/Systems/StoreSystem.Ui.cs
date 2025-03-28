@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq;
 using Content.Server.Actions;
 using Content.Server.Administration.Logs;
@@ -154,7 +155,7 @@ public sealed partial class StoreSystem
         //condition checking because why not
         if (listing.Conditions != null)
         {
-            var args = new ListingConditionArgs(component.AccountOwner ?? buyer, uid, listing, EntityManager);
+            var args = new ListingConditionArgs(component.AccountOwner ?? GetBuyerMind(buyer), uid, listing, EntityManager);
             var conditionsMet = listing.Conditions.All(condition => condition.Condition(args));
 
             if (!conditionsMet)
@@ -172,7 +173,7 @@ public sealed partial class StoreSystem
         }
 
         if (!IsOnStartingMap(uid, component))
-            component.RefundAllowed = false;
+            DisableRefund(buyer, uid, component);
 
         //subtract the cash
         foreach (var (currency, amount) in cost)
@@ -287,18 +288,43 @@ public sealed partial class StoreSystem
         //imp edit - add a record of this purchase to the mind that bought this item
         if (_mind.TryGetMind(buyer, out _, out var mindComp))
         {
-            //a little messy, but only track purchases from entities with mindRoles that should log track them
-            //cannot distinguish between what role bought what on the same player, so if they have multiple roles, the one that doesn't track takes precedence
-            var ignore = false;
-            foreach (var _ in from mindRole in mindComp.MindRoles from mindRoleComp in AllComps<MindRoleComponent>(mindRole) where !mindRoleComp.TrackPurchases select mindRoleComp) //rider is responsible for this linq. keeping it because this was like 5 loc and this is equally readable
+            //get the currency that makes up most of the listing's base cost
+                //uses base cost for consistency reasons
+                //has the side effect of not tracking things that are free
+                //not sure if I want that to happen tbh? though for now all it misses is the business cards, which don't really matter w/r/t tc spend
+            ProtoId<CurrencyPrototype>? primaryCurrency = null;
+            var primaryCurrencyCost = 0;
+            foreach (var (currency, amount) in listing.OriginalCost)
             {
-                ignore = true;
+                if (primaryCurrencyCost < amount.Int()) //this assumes that the costs will be in order of priority, not great but it works:tm:
+                {
+                    primaryCurrencyCost = amount.Int();
+                    primaryCurrency = currency;
+                }
             }
-            if (!ignore)
+
+            //get the role that "purchased" this item by primary currency & purchase priority.
+            var purchasePriority = -1;
+            MindRoleComponent? purchaserComp = null;
+            foreach (var mindRole in mindComp.MindRoles) //go over all of the player's mindRoles
             {
-                var listingName = listing.Name ?? listing.ID;
-                mindComp.Purchases.Add((listingName, listing.Cost));
+                foreach (var roleComp in AllComps<MindRoleComponent>(mindRole)) //go over all of their mindRole components
+                {
+                    if (roleComp.PrimaryCurrency == null)
+                        continue;
+                    if (roleComp.PrimaryCurrency == primaryCurrency && roleComp.PurchasePriority >= purchasePriority) //if the primary currencies match & thw new role has a higher priority, replace the old role with the new one
+                    {
+                        purchasePriority = roleComp.PurchasePriority;
+                        purchaserComp = roleComp;
+                    }
+                }
             }
+
+            //get the name for the thing that was purchased
+            var productIdentifier = listing.Name ?? listing.ID;
+
+            //finally, add it to the list of purchases
+            purchaserComp?.Purchases.Add((productIdentifier, listing.Cost));
         }
         //imp edit end
 
@@ -368,7 +394,7 @@ public sealed partial class StoreSystem
 
         if (!IsOnStartingMap(uid, component))
         {
-            component.RefundAllowed = false;
+            DisableRefund(buyer, uid, component);
             UpdateUserInterface(buyer, uid, component);
         }
 
@@ -415,6 +441,7 @@ public sealed partial class StoreSystem
         component.BoughtEntities.Add(purchase);
         var refundComp = EnsureComp<StoreRefundComponent>(purchase);
         refundComp.StoreEntity = uid;
+        refundComp.BoughtTime = _timing.CurTime;
     }
 
     private bool IsOnStartingMap(EntityUid store, StoreComponent component)

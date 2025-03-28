@@ -84,7 +84,7 @@
     interfaces:
       enum.DisposalUnitUiKey.Key:
         type: DisposalUnitBoundUserInterface
-  - type: RatKingRummageable
+  - type: Rummageable
   - type: RequireProjectileTarget
 
 - type: entity
@@ -122,6 +122,9 @@
       components:
       - Item
       - Goblin # NF
+    blacklist:
+      components:
+      - EntityStorage
   - type: MailingUnit
   - type: DeviceNetwork
     deviceNetId: Wired

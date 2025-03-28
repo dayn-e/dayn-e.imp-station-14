@@ -25,6 +25,8 @@ using Robust.Shared.Physics.Systems;
 using Robust.Shared.Serialization;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
+using Content.Shared._EE.Supermatter.Components;
+using Content.Shared.Destructible;
 
 namespace Content.Shared.Projectiles;
 
@@ -47,8 +49,8 @@ public abstract partial class SharedProjectileSystem : EntitySystem
         base.Initialize();
 
         SubscribeLocalEvent<ProjectileComponent, PreventCollideEvent>(PreventCollision);
-        SubscribeLocalEvent<EmbeddableProjectileComponent, ProjectileHitEvent>(OnEmbedProjectileHit);
-        SubscribeLocalEvent<EmbeddableProjectileComponent, ThrowDoHitEvent>(OnEmbedThrowDoHit);
+        SubscribeLocalEvent<EmbeddableProjectileComponent, ProjectileHitEvent>(OnEmbedProjectileHit, before: [typeof(SharedDestructibleSystem)]); // imp edit. ee code. i dont know at this point
+        SubscribeLocalEvent<EmbeddableProjectileComponent, ThrowDoHitEvent>(OnEmbedThrowDoHit, before: [typeof(SharedDestructibleSystem)]); // imp edit. ee code. i dont know at this point
         SubscribeLocalEvent<EmbeddableProjectileComponent, ActivateInWorldEvent>(OnEmbedActivate, before: [typeof(ItemToggleSystem)]);
         SubscribeLocalEvent<EmbeddableProjectileComponent, GetVerbsEvent<InteractionVerb>>(AddPullOutVerb);
         SubscribeLocalEvent<EmbeddableProjectileComponent, RemoveEmbeddedProjectileEvent>(OnEmbedRemove);
@@ -141,8 +143,11 @@ public abstract partial class SharedProjectileSystem : EntitySystem
             return;
         }
 
+        // imp edit - who the fuck uses TryComp and just prays it returns something. are you fucking kidding me?
+        if (!TryComp<PhysicsComponent>(uid, out var physics))
+            return;
+
         var xform = Transform(uid);
-        TryComp<PhysicsComponent>(uid, out var physics);
         _physics.SetBodyType(uid, BodyType.Dynamic, body: physics, xform: xform);
         _transform.AttachToGridOrMap(uid, xform);
         component.EmbeddedIntoUid = null;
@@ -153,7 +158,7 @@ public abstract partial class SharedProjectileSystem : EntitySystem
         {
             projectile.Shooter = null;
             projectile.Weapon = null;
-            projectile.DamagedEntity = false;
+            projectile.ProjectileSpent = false;
         }
 
         // Land it just coz uhhh yeah
@@ -164,6 +169,20 @@ public abstract partial class SharedProjectileSystem : EntitySystem
         // try place it in the user's hand
         if (remover is { } removerUid)
             _hands.TryPickupAnyHand(removerUid, uid);
+    }
+
+    /// <summary>
+    /// Imp: Unembeds all child entities on a given entity.
+    /// </summary>
+    public void RemoveEmbeddedChildren(EntityUid uid)
+    {
+        var enumerator = Transform(uid).ChildEnumerator;
+
+        while (enumerator.MoveNext(out var child))
+        {
+            if (TryComp<EmbeddableProjectileComponent>(child, out var embed))
+                RemoveEmbed(child, embed);
+        }
     }
 
     private void OnEmbedRemove(EntityUid uid, EmbeddableProjectileComponent component, RemoveEmbeddedProjectileEvent args)
@@ -192,17 +211,21 @@ public abstract partial class SharedProjectileSystem : EntitySystem
     {
         Embed(uid, args.Target, args.Shooter, component);
 
+        // imp edit
+        if (!TryComp<ProjectileComponent>(uid, out var projectile) || projectile.Weapon is not { } weapon)
+            return;
+
         // Raise a specific event for projectiles.
-        if (TryComp(uid, out ProjectileComponent? projectile))
-        {
-            var ev = new ProjectileEmbedEvent(projectile.Shooter!.Value, projectile.Weapon!.Value, args.Target);
-            RaiseLocalEvent(uid, ref ev);
-        }
+        var ev = new ProjectileEmbedEvent(projectile.Shooter, weapon, args.Target);
+        RaiseLocalEvent(uid, ref ev);
     }
 
     private void Embed(EntityUid uid, EntityUid target, EntityUid? user, EmbeddableProjectileComponent component)
     {
-        TryComp<PhysicsComponent>(uid, out var physics);
+        // imp edit - who the fuck uses TryComp and just prays it returns something. are you fucking kidding me?
+        if (!TryComp<PhysicsComponent>(uid, out var physics))
+            return;
+
         _physics.SetLinearVelocity(uid, Vector2.Zero, body: physics);
         _physics.SetBodyType(uid, BodyType.Static, body: physics);
         var xform = Transform(uid);
@@ -220,8 +243,13 @@ public abstract partial class SharedProjectileSystem : EntitySystem
         _audio.PlayPredicted(component.Sound, uid, null);
         component.EmbeddedIntoUid = target;
 
-        var ev = new EmbedEvent(user, target);
-        RaiseLocalEvent(uid, ref ev);
+        // Imp edits, though this whole thing was changed in an EE port anyway
+        var embedEv = new EmbedEvent(user, target);
+        RaiseLocalEvent(uid, ref embedEv);
+
+        var embeddedEv = new EmbeddedEvent(user, uid);
+        RaiseLocalEvent(target, ref embeddedEv);
+        // End imp edits
 
         if (component.AutoRemoveDuration != 0)
             component.AutoRemoveTime = _timing.CurTime + TimeSpan.FromSeconds(component.AutoRemoveDuration);

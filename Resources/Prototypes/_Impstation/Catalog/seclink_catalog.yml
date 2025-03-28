@@ -49,7 +49,7 @@
     DisablerToken: 1
   categories:
   - SeclinkDisabler
-  
+
 - type: listing
   id: SeclinkFunnyDisabler
   name: seclink-funny-disabler-name
@@ -92,6 +92,16 @@
 
 #Utility Options
 - type: listing
+  id: SeclinkSpaceBladeSec
+  name: seclink-spaceblade-name
+  description: seclink-spaceblade-desc
+  productEntity: SpaceBladeSec
+  cost:
+    UtilityToken: 1
+  categories:
+    - SeclinkUtility
+
+- type: listing
   id: SeclinkCrowbar
   name: seclink-crowbar-name
   description: seclink-crowbar-desc
@@ -100,7 +110,7 @@
     UtilityToken: 1
   categories:
   - SeclinkUtility
-  
+
 - type: listing
   id: SeclinkHandheldCriminalRecords
   name: seclink-handheld-records-name
