@@ -142,6 +142,7 @@
     - Masculinized # DeltaV - Hormone system
     - GrayLanguage # imp
     - RelentlessPositivity # imp
+    - Berserk #imp
   - type: Body
     prototype: Human
     requiredLegs: 2

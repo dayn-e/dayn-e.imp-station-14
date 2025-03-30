@@ -47,11 +47,6 @@
       - !type:GenericStatusEffect
         key: Berserk
         component: Berserk
-        atttackRate: 6
-        autoAttack: true
-        type: Add
-        time: 10
-        refresh: false
       - !type:Jitter
       - !type:GenericStatusEffect
         key: Stutter

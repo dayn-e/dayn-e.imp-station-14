@@ -81,3 +81,6 @@
 - type: statusEffect
   id: Adrenaline
   alert: Adrenaline
+
+- type: statusEffect
+  id: Berserk # makes you move faster and increases your unarmed attack rate

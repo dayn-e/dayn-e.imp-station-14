@@ -1,3 +1,4 @@
+using Content.Shared.Weapons.Melee;
 using Robust.Shared.GameStates;
 
 namespace Content.Shared._Impstation.Weapons.Melee.Components;
@@ -6,8 +7,11 @@ namespace Content.Shared._Impstation.Weapons.Melee.Components;
 public sealed partial class BerserkComponent : Component
 {
     [DataField, ViewVariables]
-    public float AttackRate;
+    public float AttackRate = 6;
 
     [DataField, ViewVariables]
-    public bool AutoAttack;
+    public bool AutoAttack = true;
+
+    public float? OriginalAttackRate { get; set; }
+    public bool? OriginalAutoAttack { get; set; }
 }
