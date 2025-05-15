@@ -300,23 +300,21 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
             return true;
         }
 
-        // Use our own melee
-        if (TryComp(entity, out melee))
+        // imp change
+        // Check if user has the Bereserk effect
+
+        if (TryComp(entity, out melee) && TryComp<BerserkComponent>(entity, out var berserk))
         {
-            //imp change start - added if statement and block after. content inside block is original
-            if (!TryComp<BerserkComponent>(entity, out var berserk))
-            {
-                weaponUid = entity;
-                return true;
-            }
-
-            // Store original values if not already stored
-
-            //TODO: Figure out how to NOT overwrite this
-            if (berserk.OriginalAttackRate == null)
+            if (berserk.OriginalAttackRate == null && berserk.OriginalAutoAttack == null)
             {
                 berserk.OriginalAttackRate = melee.AttackRate;
                 berserk.OriginalAutoAttack = melee.AutoAttack;
+
+                if (berserk.LifeStage > ComponentLifeStage.Running)
+                {
+                    melee.AttackRate = (float)berserk.OriginalAttackRate;
+                    melee.AutoAttack = (bool)berserk.OriginalAutoAttack;
+                }
             }
 
             melee.AttackRate = berserk.AttackRate;
@@ -324,7 +322,15 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
 
             weaponUid = entity;
             return true;
-            //imp change end
+        }
+
+        //imp change end
+
+        // Use our own melee
+        if (TryComp(entity, out melee))
+        {
+            weaponUid = entity;
+            return true;
         }
 
         return false;

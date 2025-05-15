@@ -7,7 +7,7 @@ namespace Content.Shared._Impstation.Weapons.Melee.Components;
 public sealed partial class BerserkComponent : Component
 {
     [DataField, ViewVariables]
-    public float AttackRate = 6;
+    public float AttackRate = 4;
 
     [DataField, ViewVariables]
     public bool AutoAttack = true;
