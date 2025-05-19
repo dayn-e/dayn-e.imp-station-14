@@ -53,8 +53,7 @@ public sealed class ClumsySystem : EntitySystem
 
     private void BeforeDefibrillatorZapsEvent(Entity<ClumsyComponent> ent, ref SelfBeforeDefibrillatorZapsEvent args)
     {
-        // Clumsy people sometimes defib themselves!
-        
+        // Clumsy people sometimes defib themselves!        
         // checks if ClumsyDefib is false, if so, skips.
         if (!ent.Comp.ClumsyDefib)
             return;
@@ -70,7 +69,6 @@ public sealed class ClumsySystem : EntitySystem
     private void BeforeGunShotEvent(Entity<ClumsyComponent> ent, ref SelfBeforeGunShotEvent args)
     {
         // Clumsy people sometimes can't shoot :(
-
         // checks if ClumsyGuns is false, if so, skips.
         if (!ent.Comp.ClumsyGuns)
             return;

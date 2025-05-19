@@ -54,13 +54,16 @@ namespace Content.Server.StationEvents.Events
                 }
             }
 
+            // imp edit - we have our own announcer code so this is unneeded
             // Can't use the default EndAudio
+            /*
             component.AnnounceCancelToken?.Cancel();
             component.AnnounceCancelToken = new CancellationTokenSource();
             Timer.Spawn(3000, () =>
             {
-                Audio.PlayGlobal("/Audio/Announcements/power_on.ogg", Filter.Broadcast(), true, AudioParams.Default.WithVolume(-4f));
+                Audio.PlayGlobal(component.PowerOnSound, Filter.Broadcast(), true);
             }, component.AnnounceCancelToken.Token);
+            */
             component.Unpowered.Clear();
         }
 

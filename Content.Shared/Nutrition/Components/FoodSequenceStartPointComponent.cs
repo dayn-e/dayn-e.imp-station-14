@@ -39,6 +39,12 @@ public sealed partial class FoodSequenceStartPointComponent : Component
     [DataField]
     public string Solution = "food";
 
+    /// <summary>
+    /// The threshold for EatSign to be applied to a foodsequence item (IMP ADDITION)
+    /// </summary>
+    [DataField]
+    public int EatThreshold = 80;
+
     #region name generation
 
     /// <summary>
@@ -124,7 +130,7 @@ public sealed partial class FoodSequenceStartPointComponent : Component
 /// Stores all the necessary information for rendering the FoodSequence element
 /// </summary>
 [DataRecord, Serializable, NetSerializable]
-public record struct FoodSequenceVisualLayer
+public partial record struct FoodSequenceVisualLayer
 {
     /// <summary>
     /// reference to the original prototype of the layer. Used to edit visual layers.

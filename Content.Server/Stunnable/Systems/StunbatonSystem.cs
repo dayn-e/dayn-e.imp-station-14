@@ -1,7 +1,6 @@
 using Content.Server.Power.Components;
 using Content.Server.Power.EntitySystems;
 using Content.Server.Power.Events;
-using Content.Server.Stunnable.Components;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Damage.Events;
 using Content.Shared.Examine;
@@ -35,6 +34,14 @@ namespace Content.Server.Stunnable.Systems
 
         private void OnStaminaHitAttempt(Entity<StunbatonComponent> entity, ref StaminaDamageOnHitAttemptEvent args)
         {
+            // Impstation
+            if (entity.Comp.Inverted && _itemToggle.IsActivated(entity.Owner))
+            {
+                args.Cancelled = true;
+            }
+            else if (entity.Comp.Inverted)  // Uses else so that the next if statement can call battery drain when stun gets canceled (e.g. baton is on)
+                return;
+
             if (!_itemToggle.IsActivated(entity.Owner) ||
             !TryComp<BatteryComponent>(entity.Owner, out var battery) || !_battery.TryUseCharge(entity.Owner, entity.Comp.EnergyPerUse, battery))
             {

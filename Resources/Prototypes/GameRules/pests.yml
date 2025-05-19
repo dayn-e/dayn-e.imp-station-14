@@ -7,13 +7,21 @@
     - id: SnailMigrationLowPop
     - id: CockroachMigration
     - id: MouseMigration
+    - id: LuggageMigration # imp special
+    - id: SingleCritter # imp special
 
 - type: entityTable
   id: SpicyPestEventsTable
   table: !type:AllSelector # we need to pass a list of rules, since rules have further restrictions to consider via StationEventComp
     children:
+    - id: BrosSpawn #imp
     - id: KingRatMigration
     - id: SnailMigration
+    - id: SnakeSpawn #imp
+    - id: SlimesSpawn #imp
+    - id: SpiderClownSpawn #imp
+    - id: SpiderSpawn #imp
+    - id: KodepiiaMigration #imp
 
 # events
 
@@ -21,10 +29,7 @@
   id: MouseMigration
   parent: BaseStationEventShortDelay
   components:
-  - type: StationEvent
-    startAnnouncement: station-event-vent-creatures-start-announcement
-    startAudio:
-      path: /Audio/Announcements/attention.ogg
+  - type: StationEvent #imp- remove announcement
     earliestStart: 15
     weight: 6
     duration: 50
@@ -44,10 +49,7 @@
   id: KingRatMigration
   parent: BaseStationEventShortDelay
   components:
-  - type: StationEvent
-    startAnnouncement: station-event-vent-creatures-start-announcement
-    startAudio:
-      path: /Audio/Announcements/attention.ogg
+  - type: StationEvent #imp- remove announcement
     earliestStart: 15
     weight: 6
     duration: 50
@@ -70,10 +72,7 @@
   id: CockroachMigration
   parent: BaseStationEventShortDelay
   components:
-  - type: StationEvent
-    startAnnouncement: station-event-vent-creatures-start-announcement
-    startAudio:
-      path: /Audio/Announcements/attention.ogg
+  - type: StationEvent #imp- remove announcement
     weight: 6
     duration: 50
   - type: VentCrittersRule
@@ -87,10 +86,7 @@
   id: SnailMigrationLowPop
   parent: BaseStationEventShortDelay
   components:
-  - type: StationEvent
-    startAnnouncement: station-event-vent-creatures-start-announcement
-    startAudio:
-      path: /Audio/Announcements/attention.ogg
+  - type: StationEvent #imp- remove announcement
     weight: 6
     duration: 50
   - type: VentCrittersRule
@@ -106,10 +102,7 @@
   id: SnailMigration
   parent: BaseStationEventShortDelay
   components:
-  - type: StationEvent
-    startAnnouncement: station-event-vent-creatures-start-announcement
-    startAudio:
-      path: /Audio/Announcements/attention.ogg
+  - type: StationEvent #imp- remove announcement
     earliestStart: 15
     weight: 6
     duration: 50

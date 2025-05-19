@@ -44,8 +44,8 @@
       weight: 2
     - id: ScrapGlass
       weight: 2
-    # - id: ScrapPlastic TODO: high-value plastic scrap.
-    #  weight: 2
+    - id: ScrapPlasticSlag
+      weight: 2
     - id: SheetSteel10
     - id: SheetGlass10
     - id: SheetPlastic10
@@ -222,6 +222,7 @@
   id: SalvageEquipmentRare
   table: !type:GroupSelector
     children:
+    - id: BlueprintDoubleEmergencyTank
     - id: FultonBeacon
     - id: Fulton
       amount: !type:RangeNumberSelector
@@ -250,7 +251,8 @@
     - id: BlueprintSeismicCharge
     - id: WeaponCrusherGlaive
     - id: ClothingOuterHardsuitSalvage
-    - id: OmnizineChemistryBottle
+    - id: ClothingOuterHardsuitGoliath # imp
+    - id: ChemistryBottleOmnizine
     - !type:GroupSelector
       children:
       - id: JetpackBlueFilled

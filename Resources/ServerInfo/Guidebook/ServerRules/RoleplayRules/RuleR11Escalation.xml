@@ -27,7 +27,7 @@
   See [textlink="Escalation Involving Animals" link="RuleR11-1"].
 
   ## Exemptions
-  Escalation rules aren't enforced against non-players, but players will be held responsible for rule violations even if they don't realize that a character or animal was controlled by another player. Characters who have purple text saying that they are catatonic are considered non-players. Characters who are disconnected are still considered players.
+  Escalation rules aren't enforced against non-players, but players will be held responsible for rule violations even if they don't realize that a character or animal was controlled by another player. Characters who are disconnected are still considered players. Characters who have purple text upon being examined saying "recovery is impossible" are considered non-players.
 
   ## MRP Amendment
   Escalation rules are enforced even against non-players.
@@ -36,20 +36,19 @@
   See [textlink="Examples of Conflict Types" link="RuleR11-2"].
 
   ## Example Scenarios
-  These examples assume that you are not an antagonist.
 
   Acceptable:
   - A player starts punching you, so you start punching back until they stop. If they go into crit, you stop attacking them and take them to security or to get medical attention.
   - You make fun of a clown, who then throws a pie at you and steals your shoes. You slip the clown and steal their mask.
   - You are a security officer and tell someone to stop, so you can question them. They run away, so you use your disabler to stun and cuff them.
   - You are a security officer and see someone wearing a syndicate hardsuit, so you shoot them to crit, cuff them, then take them to security.
-  - You are a crewmember and see a nuclear operative, so you kill them.
   - An unauthorized person enters a high risk area of the station, like the armory or atmospherics, so you attack them until they leave.
   - Minorly inconveniencing someone for your own benefit.
   - As an antagonist, killing someone who got in your way.
   - As an antagonist, killing someone who didn't give you what you want.
   - A chef and bartender reach the lethal level of conflict through appropriate escalation. The chef crits the bartender and does not take them to medbay or security. The bartender immediately tries to crit the chef next time they run into each other.
   - A chef and bartender reach the lethal level of conflict through appropriate escalation. The chef crits the bartender and does not take them to medbay or security. The chef insults the bartender next time they see them.
+  - A cargo technician gets a cargo bounty for a brain. After receiving a body from Medical with the purple examine text reading "Any recovery is impossible.", the cargo technician proceeds to permanently destroy the body to get the brain out.
 
   Prohibited:
   - A player starts punching you, so you gib them.
@@ -62,6 +61,8 @@
   - Hiding someone's body because they punched you earlier in the round.
   - Harassing the bar or bartender by frequently coming in to break their glasses or furniture.
   - Randomly picking fights with people.
+  - Stealing an ID from a disconnected player as a non-antagonist.
   - A chef and bartender reach the lethal level of conflict through appropriate escalation. The chef crits the bartender and does not take them to medbay or security. The chef immediately tries to crit the bartender next time they run into each other.
   - A chef and bartender reach the lethal level of conflict through appropriate escalation. The chef crits the bartender and takes them to the medbay or security. The bartender immediately tries to crit the chef next time they run into each other.
+  - A cargo technician gets a cargo bounty for a brain. After finding a dead passenger in a hallway, without the body's examine text reading "Any recovery is impossible.", the cargo technician proceeds to permanently destroy the body to get the brain out.
 </Document>

@@ -13,6 +13,11 @@ traitor-description = There are traitors among us...
 traitor-not-enough-ready-players = Not enough players readied up for the game! There were {$readyPlayersCount} players readied up out of {$minimumPlayers} needed. Can't start Traitor.
 traitor-no-one-ready = No players readied up! Can't start Traitor.
 
+spy-vs-spy-title = Spy VS Spy
+spy-vs-spy-description = Watch your back.
+spy-vs-spy-not-enough-ready-players = Not enough players readied up for the game! There were {$readyPlayersCount} players readied up out of {$minimumPlayers} needed. Can't start Spy VS Spy.
+spy-vs-spy-no-one-ready = No players readied up! Can't start Spy VS Spy.
+
 ## TraitorDeathMatch
 traitor-death-match-title = Traitor Deathmatch
 traitor-death-match-description = Everyone's a traitor. Everyone wants each other dead.
@@ -31,7 +36,7 @@ traitor-role-greeting =
 traitor-role-codewords =
     The codewords are: [color = lightgray]
     {$codewords}.[/color]
-    Codewords can be used in regular conversation to identify yourself discretely to other syndicate agents.
+    Codewords can be used in regular conversation to identify yourself discreetly to other syndicate agents.
     Listen for them, and keep them secret.
 traitor-role-uplink-code =
     Set your ringtone to the notes [color = lightgray]{$code}[/color] to lock or unlock your uplink.

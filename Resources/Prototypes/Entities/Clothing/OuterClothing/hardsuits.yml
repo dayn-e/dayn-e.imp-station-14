@@ -104,9 +104,9 @@
   description: A lightweight hardsuit designed for industrial EVA in zero gravity.
   components:
   - type: Sprite
-    sprite: Clothing/OuterClothing/Hardsuits/spatio.rsi
+    sprite: _Impstation/Clothing/OuterClothing/Hardsuits/spatio.rsi #imp
   - type: Clothing
-    sprite: Clothing/OuterClothing/Hardsuits/spatio.rsi
+    sprite: _Impstation/Clothing/OuterClothing/Hardsuits/spatio.rsi #imp
   - type: PressureProtection
     highPressureMultiplier: 0.7
     lowPressureMultiplier: 1000
@@ -124,6 +124,11 @@
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitSpatio
+  - type: Tag
+    tags:
+    - Hardsuit
+    - WhitelistChameleon
+    - HardsuitSpatio
 
 #Salvage Hardsuit
 - type: entity
@@ -133,9 +138,9 @@
   description: A special suit that protects against hazardous, low pressure environments. Has reinforced plating for wildlife encounters.
   components:
   - type: Sprite
-    sprite: Clothing/OuterClothing/Hardsuits/salvage.rsi
+    sprite: _Impstation/Clothing/OuterClothing/Hardsuits/salvage.rsi #imp
   - type: Clothing
-    sprite: Clothing/OuterClothing/Hardsuits/salvage.rsi
+    sprite: _Impstation/Clothing/OuterClothing/Hardsuits/salvage.rsi #imp
   - type: PressureProtection
     highPressureMultiplier: 0.5
     lowPressureMultiplier: 1000
@@ -156,6 +161,42 @@
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitSalvage
 
+#Goliath Hardsuit
+- type: entity
+  parent: [ClothingOuterHardsuitBase, BaseCargoContraband]
+  id: ClothingOuterHardsuitGoliath
+  name: goliath hardsuit
+  description: A lightweight hardsuit, adorned with a patchwork of thick, chitinous goliath hide.
+  components:
+  - type: Sprite
+    sprite: Clothing/OuterClothing/Hardsuits/goliath.rsi
+  - type: Clothing
+    sprite: Clothing/OuterClothing/Hardsuits/goliath.rsi
+  - type: PressureProtection
+    highPressureMultiplier: 0.5
+    lowPressureMultiplier: 1000
+  - type: ExplosionResistance
+    damageCoefficient: 0.3
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.7
+        Slash: 0.7
+        Piercing: 0.5
+        Heat: 0.7 #Goliath hide gets grilled instead of you
+        Radiation: 0.3
+        Caustic: 0.8
+  - type: ClothingSpeedModifier
+    walkModifier: 0.8
+    sprintModifier: 0.8
+  - type: HeldSpeedModifier
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitGoliath
+  - type: Construction
+    graph: HardsuitGoliath
+    node: hardsuitGoliath
+
+#Maxim Hardsuit
 - type: entity
   parent: [ClothingOuterHardsuitBase, BaseCargoContraband]
   id: ClothingOuterHardsuitMaxim
@@ -190,7 +231,7 @@
 
 #Security Hardsuit
 - type: entity
-  parent: [ClothingOuterHardsuitBase, BaseRestrictedContraband]
+  parent: [ClothingOuterHardsuitBase, BaseSecurityContraband]
   id: ClothingOuterHardsuitSecurity
   name: security hardsuit
   description: A special suit that protects against hazardous, low pressure environments. Has an additional layer of armor.
@@ -210,6 +251,7 @@
         Blunt: 0.6
         Slash: 0.6
         Piercing: 0.6
+        Heat: 0.8 #Imp
         Caustic: 0.7
   - type: ClothingSpeedModifier
     walkModifier: 0.75
@@ -220,7 +262,7 @@
 
 #Brigmedic Hardsuit
 - type: entity
-  parent: [ClothingOuterHardsuitBase, BaseRestrictedContraband]
+  parent: [ClothingOuterHardsuitBase, BaseSecurityContraband]
   id: ClothingOuterHardsuitBrigmedic
   name: brigmedic hardsuit
   description: Special hardsuit of the guardian angel of the brig. It is the medical version of the security hardsuit.
@@ -237,40 +279,44 @@
       coefficients:
         Blunt: 0.8
         Slash: 0.8
-        Piercing: 0.7
+        Piercing: 0.75
+        Heat: 0.9
+        Radiation: 0.3
+        Caustic: 0.2
   - type: ClothingSpeedModifier
-    walkModifier: 0.65
-    sprintModifier: 0.65
+    walkModifier: 0.8
+    sprintModifier: 0.85
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitBrigmedic
 
 #Warden's Hardsuit
 - type: entity
-  parent: [ClothingOuterHardsuitBase, BaseRestrictedContraband]
+  parent: [ClothingOuterHardsuitBase, BaseSecurityContraband]
   id: ClothingOuterHardsuitWarden
   name: warden's hardsuit
   description: A specialized riot suit geared to combat low pressure environments.
   components:
   - type: Sprite
-    sprite: Clothing/OuterClothing/Hardsuits/security-warden.rsi
+    sprite: _Impstation/Clothing/OuterClothing/Hardsuits/security-warden.rsi #imp
   - type: Clothing
-    sprite: Clothing/OuterClothing/Hardsuits/security-warden.rsi
+    sprite: _Impstation/Clothing/OuterClothing/Hardsuits/security-warden.rsi #imp
   - type: PressureProtection
     highPressureMultiplier: 0.5
     lowPressureMultiplier: 1000
   - type: ExplosionResistance
-    damageCoefficient: 0.4
+    damageCoefficient: 0.35 #IMP balance changes; same stats as the raid suit but as slow as the jugg suit.
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.5
-        Slash: 0.6
-        Piercing: 0.6
-        Caustic: 0.7
+        Blunt: 0.35
+        Slash: 0.35
+        Piercing: 0.35
+        Heat: 0.35
+        Caustic: 0.5
   - type: ClothingSpeedModifier
-    walkModifier: 0.7
-    sprintModifier: 0.7
+    walkModifier: 0.9
+    sprintModifier: 0.65
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitWarden
@@ -283,9 +329,9 @@
   description: A formal armored spacesuit, made for the station's captain.
   components:
   - type: Sprite
-    sprite: Clothing/OuterClothing/Hardsuits/capspace.rsi
+    sprite: _Impstation/Clothing/OuterClothing/Hardsuits/capspace.rsi #imp
   - type: Clothing
-    sprite: Clothing/OuterClothing/Hardsuits/capspace.rsi
+    sprite: _Impstation/Clothing/OuterClothing/Hardsuits/capspace.rsi #imp
   - type: PressureProtection
     highPressureMultiplier: 0.02
     lowPressureMultiplier: 1000
@@ -340,6 +386,12 @@
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitEngineeringWhite
+  # imp edits #
+  - type: SupermatterImmune
+  - type: ClothingGrantComponent
+    component:
+    - type: SupermatterImmune
+  # end imp edits #
 
 #Chief Medical Officer's Hardsuit
 - type: entity
@@ -349,9 +401,9 @@
   description: A special suit that protects against hazardous, low pressure environments. Built with lightweight materials for easier movement.
   components:
   - type: Sprite
-    sprite: Clothing/OuterClothing/Hardsuits/medical.rsi
+    sprite: _Impstation/Clothing/OuterClothing/Hardsuits/impcmo.rsi
   - type: Clothing
-    sprite: Clothing/OuterClothing/Hardsuits/medical.rsi
+    sprite: _Impstation/Clothing/OuterClothing/Hardsuits/impcmo.rsi
   - type: PressureProtection
     highPressureMultiplier: 0.3
     lowPressureMultiplier: 1000
@@ -425,13 +477,14 @@
     highPressureMultiplier: 0.45
     lowPressureMultiplier: 1000
   - type: ExplosionResistance
-    damageCoefficient: 0.6
+    damageCoefficient: 0.4 #imp
   - type: Armor
     modifiers:
       coefficients:
         Blunt: 0.6
         Slash: 0.5
         Piercing: 0.5
+        Heat: 0.75 #imp
         Radiation: 0.5
         Caustic: 0.6
   - type: ClothingSpeedModifier
@@ -447,6 +500,7 @@
   id: ClothingOuterHardsuitLuxury #DO NOT MAP - https://github.com/space-wizards/space-station-14/pull/19738#issuecomment-1703486738
   name: luxury mining hardsuit
   description: A refurbished mining hardsuit, fashioned after the Quartermaster's colors. Graphene lining provides less protection, but is much easier to move.
+  categories: [ DoNotMap ]
   components:
   - type: Sprite
     sprite: Clothing/OuterClothing/Hardsuits/luxury.rsi
@@ -475,17 +529,17 @@
 #ANTAG HARDSUITS
 #Blood-red Hardsuit
 - type: entity
-  parent: [ ClothingOuterHardsuitBase, BaseSyndicateContraband ]
+  parent: [ ClothingOuterHardsuitBase, Tier3Contraband ]
   id: ClothingOuterHardsuitSyndie
   name: blood-red hardsuit
   description: A heavily armored hardsuit designed for work in special operations. Property of Gorlex Marauders.
   components:
   - type: Sprite
-    sprite: Clothing/OuterClothing/Hardsuits/syndicate.rsi
+    sprite: _Impstation/Clothing/OuterClothing/Hardsuits/syndicate_operator.rsi #imp edit
   - type: Item
     size: Huge
   - type: Clothing
-    sprite: Clothing/OuterClothing/Hardsuits/syndicate.rsi
+    sprite: _Impstation/Clothing/OuterClothing/Hardsuits/syndicate_operator.rsi #imp edit
   - type: PressureProtection
     highPressureMultiplier: 0.05
     lowPressureMultiplier: 1000
@@ -508,21 +562,21 @@
     clothingPrototype: ClothingHeadHelmetHardsuitSyndie
   - type: Tag
     tags:
-    - MonkeyWearable
+#    - MonkeyWearable #imp
     - Hardsuit
     - WhitelistChameleon
 
 # Syndicate Medic Hardsuit
 - type: entity
-  parent: [ClothingOuterHardsuitSyndie, BaseSyndicateContraband]
+  parent: [ClothingOuterHardsuitSyndie, Tier3Contraband]
   id: ClothingOuterHardsuitSyndieMedic
   name: blood-red medic hardsuit
   description: A heavily armored and agile advanced hardsuit specifically designed for field medic operations.
   components:
   - type: Sprite
-    sprite: Clothing/OuterClothing/Hardsuits/syndiemedic.rsi
+    sprite: _Impstation/Clothing/OuterClothing/Hardsuits/syndicate_agent.rsi #imp edit
   - type: Clothing
-    sprite: Clothing/OuterClothing/Hardsuits/syndiemedic.rsi
+    sprite: _Impstation/Clothing/OuterClothing/Hardsuits/syndicate_agent.rsi #imp edit
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitSyndieMedic
   - type: Tag
@@ -532,15 +586,15 @@
 
 #Syndicate Elite Hardsuit
 - type: entity
-  parent: [ClothingOuterHardsuitBase, BaseSyndicateContraband]
+  parent: [ClothingOuterHardsuitBase, Tier3Contraband]
   id: ClothingOuterHardsuitSyndieElite
   name: syndicate elite hardsuit
   description: An elite version of the blood-red hardsuit, with improved mobility and fireproofing. Property of Gorlex Marauders.
   components:
   - type: Sprite
-    sprite: Clothing/OuterClothing/Hardsuits/syndieelite.rsi
+    sprite: _Impstation/Clothing/OuterClothing/Hardsuits/syndicate_elite.rsi #imp edit
   - type: Clothing
-    sprite: Clothing/OuterClothing/Hardsuits/syndieelite.rsi
+    sprite: _Impstation/Clothing/OuterClothing/Hardsuits/syndicate_elite.rsi #imp edit
   - type: PressureProtection
     highPressureMultiplier: 0.02
     lowPressureMultiplier: 1000
@@ -571,15 +625,15 @@
 
 #Syndicate Commander Hardsuit
 - type: entity
-  parent: [ClothingOuterHardsuitBase, BaseSyndicateContraband]
+  parent: [ClothingOuterHardsuitBase, Tier3Contraband]
   id: ClothingOuterHardsuitSyndieCommander
   name: syndicate commander hardsuit
   description: A bulked up version of the blood-red hardsuit, purpose-built for the commander of a syndicate operative squad. Has significantly improved armor for those deadly front-lines firefights.
   components:
   - type: Sprite
-    sprite: Clothing/OuterClothing/Hardsuits/syndiecommander.rsi
+    sprite: _Impstation/Clothing/OuterClothing/Hardsuits/syndicate_commander.rsi #imp edit
   - type: Clothing
-    sprite: Clothing/OuterClothing/Hardsuits/syndiecommander.rsi
+    sprite: _Impstation/Clothing/OuterClothing/Hardsuits/syndicate_commander.rsi #imp edit
   - type: PressureProtection
     highPressureMultiplier: 0.05
     lowPressureMultiplier: 1000
@@ -603,15 +657,15 @@
 
 #Cybersun Juggernaut Hardsuit
 - type: entity
-  parent: [ClothingOuterHardsuitBase, BaseSyndicateContraband]
+  parent: [ClothingOuterHardsuitBase, Tier3Contraband]
   id: ClothingOuterHardsuitJuggernaut
-  name: cybersun juggernaut suit
-  description: A suit made by the cutting edge R&D department at cybersun to be hyper resilient.
+  name: Cybersun juggernaut suit # imp edit; preferential to capitalizing company names
+  description: A suit of compressed red matter, originally used by Cybersun's legal honor guard. An absolute beast, it's been hand-crafted by the cutting-edge R&D department at Cybersun to be hyper resilient. # imp rewrite
   components:
   - type: Sprite
-    sprite: Clothing/OuterClothing/Hardsuits/cybersun.rsi
+    sprite: _Impstation/Clothing/OuterClothing/Hardsuits/syndicate_juggernaut.rsi #imp edit
   - type: Clothing
-    sprite: Clothing/OuterClothing/Hardsuits/cybersun.rsi
+    sprite: _Impstation/Clothing/OuterClothing/Hardsuits/syndicate_juggernaut.rsi #imp edit
   - type: PressureProtection
     highPressureMultiplier: 0.2
     lowPressureMultiplier: 1000
@@ -635,7 +689,7 @@
 
 #Wizard Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitBase
+  parent: [ ClothingOuterHardsuitBase, BaseMagicalContraband ]
   id: ClothingOuterHardsuitWizard
   name: wizard hardsuit
   description: A bizarre gem-encrusted suit that radiates magical energies.
@@ -759,6 +813,53 @@
     clothingPrototype: ClothingHeadHelmetHardsuitPirateCap
   - type: StaticPrice
     price: 0
+
+#Makeshift Hardsuit
+- type: entity
+  parent: [ BaseMajorContraband, ClothingOuterHardsuitBase]
+  id: ClothingOuterProspector
+  name: makeshift hardsuit
+  description: A heap of plating and insulation thrown together that just barely constitutes a hardsuit - but if it's good enough for space, it's good enough for you.
+  components:
+  - type: Sprite
+    sprite: _Impstation/Prospectors/prospector-hardsuit.rsi
+  - type: Item
+    size: Huge
+  - type: Clothing
+    sprite: _Impstation/Prospectors/prospector-hardsuit.rsi
+  - type: PressureProtection
+    highPressureMultiplier: 0.7
+    lowPressureMultiplier: 1000
+  - type: ExplosionResistance
+    damageCoefficient: 0.8
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.95
+        Slash: 0.95
+        Piercing: 0.95
+        Radiation: 0.8
+        Caustic: 0.9
+  - type: ClothingSpeedModifier
+    walkModifier: 0.9
+    sprintModifier: 0.8
+  - type: HeldSpeedModifier
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetProspector
+
+#Desperado Hardsuit
+- type: entity
+  parent: [ BaseMajorContraband, ClothingOuterHardsuitSyndieCommander ]
+  id: ClothingOuterDesperado
+  name: desperado hardsuit
+  description: An incredibly tough hardsuit woven together with Goliath plating and some helpfully reclaimed NT equipment. Makes you respectable, both as a person and as a threat.
+  components:
+  - type: Sprite
+    sprite: _Impstation/Prospectors/desperado-hardsuit.rsi
+  - type: Clothing
+    sprite: _Impstation/Prospectors/desperado-hardsuit.rsi
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetDesperado
 
 #CENTCOMM / ERT HARDSUITS
 #ERT Leader Hardsuit
@@ -961,9 +1062,12 @@
 - type: entity
   parent: ClothingOuterHardsuitClown
   id: ClothingOuterHardsuitMime
-  name: mime hardsuit
+  name: red mime hardsuit # Imp
   description: A custom-made mime hardsuit.
   components:
+  - type: Tag
+    tags:
+      - MimeHardsuit
   - type: Sprite
     sprite: Clothing/OuterClothing/Hardsuits/mime.rsi
   - type: Clothing

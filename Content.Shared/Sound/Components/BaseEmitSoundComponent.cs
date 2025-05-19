@@ -1,4 +1,6 @@
 using Robust.Shared.Audio;
+using Robust.Shared.GameStates;
+using Robust.Shared.Serialization;
 
 namespace Content.Shared.Sound.Components;
 
@@ -8,12 +10,16 @@ namespace Content.Shared.Sound.Components;
 /// </summary>
 public abstract partial class BaseEmitSoundComponent : Component
 {
-    public static readonly AudioParams DefaultParams = AudioParams.Default.WithVolume(-2f);
+    /// <summary>
+    /// The <see cref="SoundSpecifier"/> to play.
+    /// </summary>
+    [DataField(required: true)]
+    public SoundSpecifier? Sound;
 
     [AutoNetworkedField]
     [ViewVariables(VVAccess.ReadWrite)]
-    [DataField(required: true)]
-    public SoundSpecifier? Sound;
+    [DataField]
+    public bool Detach = false;
 
     /// <summary>
     /// Play the sound at the position instead of parented to the source entity.
@@ -21,4 +27,20 @@ public abstract partial class BaseEmitSoundComponent : Component
     /// </summary>
     [DataField]
     public bool Positional;
+
+
+
+
+}
+
+/// <summary>
+/// Represents the state of <see cref="BaseEmitSoundComponent"/>.
+/// </summary>
+/// <remarks>This is obviously very cursed, but since the BaseEmitSoundComponent is abstract, we cannot network it.
+/// AutoGenerateComponentState attribute won't work here, and since everything revolves around inheritance for some fucking reason,
+/// there's no better way of doing this.</remarks>
+[Serializable, NetSerializable]
+public struct EmitSoundComponentState(SoundSpecifier? sound) : IComponentState
+{
+    public SoundSpecifier? Sound { get; } = sound;
 }

@@ -6,28 +6,28 @@
       edges:
         - to: medsecHud
           steps:
-            - tag: HudMedical
-              name: medical hud
-              icon:
-                sprite: Clothing/Eyes/Hud/med.rsi
-                state: icon
-              doAfter: 5
             - tag: HudSecurity
               name: security hud
               icon:
                 sprite: Clothing/Eyes/Hud/sec.rsi
                 state: icon
               doAfter: 5
+            - tag: HudMedical
+              name: medical hud
+              icon:
+                sprite: Clothing/Eyes/Hud/med.rsi
+                state: icon
+              doAfter: 5
+            - tag: Sunglasses #imp
+              name: sun glasses
+              icon:
+                sprite: Clothing/Eyes/Glasses/sunglasses.rsi
+                state: icon
+              doAfter: 5
             - material: Cable
               amount: 5
               doAfter: 5
-            - tag: Radio
-              name: radio
-              icon:
-                sprite: Objects/Devices/communication.rsi
-                state: walkietalkie
-              doAfter: 5
-            - material: Capacitor
+            - material: Capacitor #imp but low key this is a bugfix
               amount: 2
               doAfter: 5
     - node: medsecHud

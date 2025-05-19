@@ -12,13 +12,13 @@
       time: 21600 #6 hrs
     - !type:DepartmentTimeRequirement
       department: Engineering
-      time: 36000 #10 hrs
+      time: 72000 #20 hrs, imp
     - !type:OverallPlaytimeRequirement
       time: 144000 #40 hrs
   weight: 10
   startingGear: ChiefEngineerGear
   icon: "JobIconChiefEngineer"
-  supervisors: job-supervisors-captain
+  supervisors: job-supervisors-hop-captain #imp
   canBeAntag: false
   access:
   - Maintenance
@@ -41,7 +41,6 @@
   equipment:
     id: CEPDA
     eyes: ClothingEyesGlassesMeson
-    ears: ClothingHeadsetCE
     belt: ClothingBeltUtilityEngineering
   storage:
     back:

@@ -82,7 +82,7 @@
   objectType: Item
   description: When you've really got nothing left.
   icon:
-    sprite: Objects/Specific/Medical/medical.rsi
+    sprite: _Impstation/Objects/Specific/Medical/medical.rsi # imp
     state: gauze
 
 - type: construction
@@ -96,6 +96,19 @@
   description: Better hope everyone turns a blind eye to you crafting this sussy item...
   icon:
     sprite: Clothing/Eyes/Misc/blindfold.rsi
+    state: icon
+
+- type: construction
+  name: double eyepatch
+  id: doubleeyepatch
+  graph: DoubleEyepatch
+  startNode: start
+  targetNode: doubleeyepatch
+  category: construction-category-tools
+  objectType: Item
+  description: Two eyepatches, for twice the swashbuckling.
+  icon:
+    sprite: Clothing/Eyes/Misc/doubleeyepatch.rsi
     state: icon
 
 - type: construction
@@ -190,6 +203,32 @@
   objectType: Item
 
 - type: construction
+  name: hemp cloth
+  id: HempWovenCloth
+  graph: HempObjects
+  startNode: start
+  targetNode: hempcloth
+  category: construction-category-misc
+  description: "A homemade piece of hempen cloth, it feels coarse."
+  icon:
+    sprite: Objects/Materials/materials.rsi
+    state: hemp_cloth_3
+  objectType: Item
+
+- type: construction
+  name: hemp sack
+  id: hempWovenSack
+  graph: HempWovenSack
+  startNode: start
+  targetNode: hempsack
+  category: construction-category-misc
+  description: "A woven hemp sack. Feels sturdy."
+  icon:
+    sprite: Objects/Storage/hempsack.rsi
+    state: icon
+  objectType: Item
+
+- type: construction
   name: straw hat
   id: strawHat
   graph: StrawHat
@@ -227,3 +266,29 @@
   icon:
     sprite: Objects/Tools/rolling_pin.rsi
     state: icon
+
+- type: construction
+  name: pet carrier
+  id: PetCarrier
+  graph: PetCarrier
+  startNode: start
+  targetNode: petCarrier
+  category: construction-category-misc
+  objectType: Item
+  description: Allows large animals to be carried comfortably.
+  icon:
+    sprite: Objects/Storage/petcarrier.rsi
+    state: icon
+
+# - type: construction
+#   name: goliath hardsuit
+#   id: HardsuitGoliath
+#   graph: HardsuitGoliath
+#   startNode: start
+#   targetNode: hardsuitGoliath
+#   category: construction-category-clothing
+#   objectType: Item
+#   description: A lightweight hardsuit, adorned with a patchwork of thick, chitinous goliath hide.
+#   icon:
+#     sprite: Clothing/OuterClothing/Hardsuits/goliath.rsi
+#     state: icon

@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Content.Shared.CCVar;
+using Robust.Shared;
 using Robust.Shared.Configuration;
 using Robust.Shared.ContentPack;
 using Robust.Shared.Serialization.Manager;
@@ -23,8 +24,8 @@ namespace Content.Client.Changelog
         private ISawmill _sawmill = default!;
 
         public bool NewChangelogEntries { get; private set; }
-        public int LastReadId { get; private set; }
-        public int MaxId { get; private set; }
+        public Dictionary<string, int> LastReadId { get; private set; } = new Dictionary<string, int>();
+        public Dictionary<string, int> MaxId { get; private set; } = new Dictionary<string, int>();
 
         public event Action? NewChangelogEntriesChanged;
 
@@ -36,14 +37,18 @@ namespace Content.Client.Changelog
         ///     <see cref="LastReadId"/> is NOT cleared
         ///     since that's used in the changelog menu to show the "since you last read" bar.
         /// </remarks>
-        public void SaveNewReadId()
+        public async void SaveNewReadId()
         {
             NewChangelogEntries = false;
             NewChangelogEntriesChanged?.Invoke();
 
-            using var sw = _resource.UserData.OpenWriteText(new ($"/changelog_last_seen_{_configManager.GetCVar(CCVars.ServerId)}"));
+            var changelogs = await LoadChangelog();
 
-            sw.Write(MaxId.ToString());
+            foreach (var changelog in changelogs)
+            {
+                using var sw = _resource.UserData.OpenWriteText(new($"/changelog_last_seen_{_configManager.GetCVar(CCVars.ServerId)}_{changelog.Name}"));
+                sw.Write(MaxId[changelog.Name].ToString());
+            }
         }
 
         public async void Initialize()
@@ -67,26 +72,30 @@ namespace Content.Client.Changelog
                 return;
             }
 
-            var changelog = changelogs[0];
             if (mainChangelogs.Length > 1)
-            {
                 _sawmill.Error($"More than one file found in Resource/Changelog with name {MainChangelogName}");
-            }
 
-            if (changelog.Entries.Count == 0)
-            {
+            if (changelogs[0].Entries.Count == 0)
                 return;
-            }
 
-            MaxId = changelog.Entries.Max(c => c.Id);
+            NewChangelogEntries = false;
 
-            var path = new ResPath($"/changelog_last_seen_{_configManager.GetCVar(CCVars.ServerId)}");
-            if (_resource.UserData.TryReadAllText(path, out var lastReadIdText))
+            foreach (var changelog in changelogs)
             {
-                LastReadId = int.Parse(lastReadIdText);
-            }
+                var name = changelog.Name;
 
-            NewChangelogEntries = LastReadId < MaxId;
+                MaxId.Add(name, changelog.Entries.Max(c => c.Id));
+                LastReadId.Add(name, 0);
+
+                var path = new ResPath($"/changelog_last_seen_{_configManager.GetCVar(CCVars.ServerId)}_{name}");
+                if (_resource.UserData.TryReadAllText(path, out var lastReadIdText))
+                {
+                    LastReadId[name] = int.Parse(lastReadIdText);
+                }
+
+                if (!changelog.AdminOnly)
+                    NewChangelogEntries = NewChangelogEntries || LastReadId[name] < MaxId[name];
+            }
 
             NewChangelogEntriesChanged?.Invoke();
         }
@@ -123,6 +132,27 @@ namespace Content.Client.Changelog
         public void PostInject()
         {
             _sawmill = _logManager.GetSawmill(SawmillName);
+        }
+
+        /// <summary>
+        ///     Tries to return a human-readable version number from the build.json file
+        /// </summary>
+        public string GetClientVersion()
+        {
+            var fork = _configManager.GetCVar(CVars.BuildForkId);
+            var version = _configManager.GetCVar(CVars.BuildVersion);
+
+            // This trimming might become annoying if down the line some codebases want to switch to a real
+            // version format like "104.11.3" while others are still using the git hashes
+            if (version.Length > 7)
+                version = version[..7];
+
+            if (string.IsNullOrEmpty(version) || string.IsNullOrEmpty(fork))
+                return Loc.GetString("changelog-version-unknown");
+
+            return Loc.GetString("changelog-version-tag",
+                ("fork", fork),
+                ("version", version));
         }
 
         [DataDefinition]

@@ -1,3 +1,13 @@
+# Senior times
+- type: loadoutEffectGroup
+  id: SeniorSalvager
+  effects:
+  - !type:JobRequirementLoadoutEffect
+    requirement:
+      !type:RoleTimeRequirement
+      role: JobSalvageSpecialist
+      time: 108000 #30 hrs, ~20 rounds #imp
+
 # Back
 - type: loadout
   id: SalvageSpecialistBackpack
@@ -14,6 +24,7 @@
   equipment:
     back: ClothingBackpackDuffelSalvage
 
+
 # OuterClothing
 - type: loadout
   id: SalvageSpecialistWintercoat
@@ -25,3 +36,31 @@
   id: SalvageBoots
   equipment:
     shoes: ClothingShoesBootsSalvage
+
+# Mantle
+- type: loadout
+  id: MinerCloak
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: SeniorSalvager
+  equipment:
+    neck: ClothingNeckCloakMiner
+
+- type: loadout
+  id: SaMantle
+  equipment:
+    neck: ClothingNeckMantle
+
+# id
+- type: loadout
+  id: SalvageSpecialistPDA
+  equipment:
+    id: SalvagePDA
+
+- type: loadout
+  id: SeniorSalvageSpecialistPDA
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: SeniorSalvager
+  equipment:
+    id: SeniorSalvagePDA

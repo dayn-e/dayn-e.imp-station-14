@@ -1,5 +1,6 @@
 using Content.Server.Administration.Logs;
 using Content.Server.Antag;
+using Content.Server.Antag.Components;
 using Content.Server.GameTicking.Rules.Components;
 using Content.Server.Mind;
 using Content.Server.Objectives;
@@ -8,15 +9,18 @@ using Content.Server.Roles;
 using Content.Server.Traitor.Uplink;
 using Content.Shared.Database;
 using Content.Shared.FixedPoint;
+using Content.Shared.GameTicking;
 using Content.Shared.GameTicking.Components;
 using Content.Shared.Mind;
 using Content.Shared.NPC.Systems;
 using Content.Shared.PDA;
+using Content.Shared.Random.Helpers;
 using Content.Shared.Roles;
 using Content.Shared.Roles.Jobs;
 using Content.Shared.Roles.RoleCodeword;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
+using Robust.Server.Player;
 using System.Linq;
 using System.Text;
 
@@ -31,11 +35,15 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
     [Dependency] private readonly SharedJobSystem _jobs = default!;
     [Dependency] private readonly MindSystem _mindSystem = default!;
     [Dependency] private readonly NpcFactionSystem _npcFaction = default!;
+    [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly SharedRoleCodewordSystem _roleCodewordSystem = default!;
     [Dependency] private readonly SharedRoleSystem _roleSystem = default!;
     [Dependency] private readonly UplinkSystem _uplink = default!;
+
+    public AntagSelectionPlayerPool? CurrentAntagPool = null;
+    public bool ForceAllPossible = false;
 
     public override void Initialize()
     {
@@ -43,6 +51,7 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
 
         Log.Level = LogLevel.Debug;
 
+        SubscribeLocalEvent<TraitorRuleComponent, AntagPrereqSetupEvent>(AdditionalSetup);
         SubscribeLocalEvent<TraitorRuleComponent, AfterAntagEntitySelectedEvent>(AfterEntitySelected);
         SubscribeLocalEvent<TraitorRuleComponent, ObjectivesTextPrependEvent>(OnObjectivesTextPrepend);
     }
@@ -51,6 +60,21 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
     {
         base.Added(uid, component, gameRule, args);
         SetCodewords(component, args.RuleEntity);
+    }
+
+    private void AdditionalSetup(Entity<TraitorRuleComponent> ent, ref AntagPrereqSetupEvent args)
+    {
+        ForceAllPossible = args.Def.ForceAllPossible;
+        if (args.Def.ForceAllPossible)
+        {
+            CurrentAntagPool = _antag.GetPlayerPool( // Get player pool of potential antags. Used for assigning objective targets
+                args.GameRule,
+                _playerManager.Sessions
+                .Where(x => GameTicker.PlayerGameStatuses.TryGetValue(x.UserId, out var status) && status == PlayerGameStatus.JoinedGame)
+                .ToList(),
+                args.Def
+            );
+        }
     }
 
     private void AfterEntitySelected(Entity<TraitorRuleComponent> ent, ref AfterAntagEntitySelectedEvent args)
@@ -74,7 +98,7 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
         string[] codewords = new string[finalCodewordCount];
         for (var i = 0; i < finalCodewordCount; i++)
         {
-            codewords[i] = _random.PickAndTake(codewordPool);
+            codewords[i] = Loc.GetString(_random.PickAndTake(codewordPool));
         }
         return codewords;
     }
@@ -98,7 +122,7 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
             briefing = Loc.GetString("traitor-role-codewords-short", ("codewords", string.Join(", ", component.Codewords)));
         }
 
-        var issuer = _random.Pick(_prototypeManager.Index(component.ObjectiveIssuers).Values);
+        var issuer = _random.Pick(_prototypeManager.Index(component.ObjectiveIssuers));
 
         // Uplink code will go here if applicable, but we still need the variable if there aren't any
         Note[]? code = null;
@@ -252,5 +276,37 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
         }
 
         return traitors;
+    }
+
+// imp edit for Bounty Hunter
+    public List<(EntityUid Id, MindComponent Mind)> GetOtherAntagMindsAliveAndConnected(MindComponent ourMind)
+    {
+        List<(EntityUid Id, MindComponent Mind)> allAntags = new();
+
+        var query = EntityQueryEnumerator<AntagObjectivesComponent>();
+        while (query.MoveNext(out var uid, out var antag))
+        {
+            foreach (var role in GetOtherAntagMindsAliveAndConnected(ourMind, (uid, antag)))
+            {
+                if (!allAntags.Contains(role))
+                    allAntags.Add(role);
+            }
+        }
+
+        return allAntags;
+    }
+
+    private List<(EntityUid Id, MindComponent Mind)> GetOtherAntagMindsAliveAndConnected(MindComponent ourMind, Entity<AntagObjectivesComponent> rule)
+    {
+        var antags = new List<(EntityUid Id, MindComponent Mind)>();
+        foreach (var mind in _antag.GetAntagMinds(rule.Owner))
+        {
+            if (mind.Comp == ourMind)
+                continue;
+
+            antags.Add((mind, mind));
+        }
+
+        return antags;
     }
 }

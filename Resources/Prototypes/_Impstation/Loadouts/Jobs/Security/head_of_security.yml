@@ -1,0 +1,53 @@
+# For the veteran head of security cosmetics
+- type: loadoutEffectGroup
+  id: VeteranHOS
+  effects:
+  - !type:JobRequirementLoadoutEffect
+    requirement:
+      !type:RoleTimeRequirement
+      role: JobHeadOfSecurity
+      time: 54000 #15 hrs, ~10 rounds, half the standard due to HoS having an extreme unlock requirement
+
+- type: loadout
+  id: HeadofSecurityVeteranHeadset
+  equipment:
+    ears: ClothingHeadsetHOSveteran
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: VeteranHOS
+
+- type: loadout
+  id: HeadofSecurityGreatcoat
+  equipment:
+    neck: ClothingNeckCloakHosgreatcoat
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: VeteranHOS
+
+- type: loadout
+  id: HeadofSecurityEliteArmor
+  equipment:
+    outerClothing: ClothingOuterArmorHoSEliteArmor
+
+- type: loadout
+  id: HeadofSecurityJumpsuitGrey
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitHoSGrey
+
+- type: loadout
+  id: HeadofSecurityJumpskirtGrey
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtHoSGrey
+
+# Firearms
+- type: loadout
+  id: SecurityPistolSturm
+  equipment:
+    pocket1: WeaponPistolSturm
+
+# Ammunition
+- type: loadout
+  id: SecurityAmmoSturm
+  storage:
+    back:
+    - AmmoPouch

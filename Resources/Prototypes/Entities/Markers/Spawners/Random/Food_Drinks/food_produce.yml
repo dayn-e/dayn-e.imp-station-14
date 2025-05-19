@@ -136,10 +136,16 @@
       - id: CottonBol
         amount: !type:RangeNumberSelector
           range: 1, 5
+      - id: FoodCoffee # Frontier
+        amount: !type:RangeNumberSelector
+          range: 1, 5
       - id: FoodCocoaBeans
         amount: !type:RangeNumberSelector
           range: 1, 5
       - id: FoodCherry
+        amount: !type:RangeNumberSelector
+          range: 1, 5
+      - id: FoodCoconut #imp
         amount: !type:RangeNumberSelector
           range: 1, 5
     #rare
@@ -161,5 +167,8 @@
         amount: !type:RangeNumberSelector
           range: 1, 5
       - id: DeathNettle
+        amount: !type:RangeNumberSelector
+          range: 1, 5
+      - id: FoodLemo
         amount: !type:RangeNumberSelector
           range: 1, 5

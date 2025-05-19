@@ -15,7 +15,7 @@
   - Security
   - Brig
   - Maintenance
-  - Service
+  #- Service imp edit
   - Detective
   - Cryogenics
   - External
@@ -27,11 +27,11 @@
   id: DetectiveGear
   equipment:
     eyes: ClothingEyesGlassesSecurity
-    id: DetectivePDA
     ears: ClothingHeadsetSecurity
-    belt: ClothingBeltHolsterFilled
+    belt: ClothingBeltHolster # imp
   storage:
     back:
     - Flash
     - ForensicPad
     - ForensicScanner
+    - CrayonChalk # imp edit

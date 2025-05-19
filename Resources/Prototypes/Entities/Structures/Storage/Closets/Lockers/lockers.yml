@@ -29,6 +29,11 @@
     stateBaseClosed: secure
     stateDoorOpen: secure_open
     stateDoorClosed: secure_door
+  - type: DamageOtherOnHit # imp
+    damage:
+      types:
+        Blunt: 15
+    staminaCost: 50
 
 # Cargo
 - type: entity
@@ -338,7 +343,7 @@
     stateDoorOpen: armory_open
     stateDoorClosed: brigmedic_door
   - type: AccessReader
-    access: [["Medical"]]
+    access: [["Medical"], ["Armory"]]
 
 # Security Officer
 - type: entity
@@ -395,8 +400,12 @@
   id: LockerEvidence
   parent: LockerSecurity
   name: evidence locker
-  description: To store bags of bullet casings and detainee belongings.
+  description: To store bags of bullet casings and other crime clues. #imp
   components:
+  - type: EntityStorageVisuals #imp
+    stateBaseClosed: evidence
+    stateDoorOpen: sec_open
+    stateDoorClosed: evidence_door
   - type: AccessReader
     access: [["Security"]]
 
@@ -448,7 +457,7 @@
   components:
   - type: Appearance
   - type: AccessReader
-    access: [["Theatre"]]
+    access: [["Clown"]] #imp edit
   - type: EntityStorageVisuals
     stateBaseClosed: clown
     stateDoorOpen: clown_open
@@ -462,7 +471,7 @@
   components:
   - type: Appearance
   - type: AccessReader
-    access: [["Theatre"]]
+    access: [["Mime"]] #imp edit
   - type: EntityStorageVisuals
     stateBaseClosed: mime
     stateDoorOpen: mime_open

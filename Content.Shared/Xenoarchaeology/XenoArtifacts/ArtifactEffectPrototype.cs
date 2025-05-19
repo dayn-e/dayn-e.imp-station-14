@@ -8,7 +8,7 @@ namespace Content.Shared.Xenoarchaeology.XenoArtifacts;
 /// <summary>
 /// This is a prototype for...
 /// </summary>
-[Prototype("artifactEffect")]
+[Prototype]
 [DataDefinition]
 public sealed partial class ArtifactEffectPrototype : IPrototype
 {
@@ -32,6 +32,9 @@ public sealed partial class ArtifactEffectPrototype : IPrototype
     //TODO: make this a list so we can have multiple target depths
     [DataField("targetDepth")]
     public int TargetDepth = 0;
+
+    [DataField("effectProb")]
+    public float EffectProb = 1f;
 
     [DataField("effectHint")]
     public string? EffectHint;

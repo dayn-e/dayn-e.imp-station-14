@@ -1,4 +1,4 @@
-﻿# Generic borg
+# Generic borg
 - type: borgType
   id: generic
 
@@ -10,6 +10,7 @@
   moduleWhitelist:
     tags:
     - BorgModuleGeneric
+    - BorgModuleScience #until sciborgs are added
 
   defaultModules:
   - BorgModuleTool
@@ -81,12 +82,15 @@
 
   defaultModules:
   - BorgModuleGrapplingGun
-  - BorgModuleMining
+  - BorgModuleBasicMining # imp
   - BorgModuleAppraisal
 
   radioChannels:
   - Supply
   - Science
+
+  addComponents:
+  - type: Magboots
 
   # Visual
   inventoryTemplateId: borgTall
@@ -191,7 +195,7 @@
   dummyPrototype: BorgChassisService
 
   # Functional
-  extraModuleCount: 3
+  extraModuleCount: 4
   moduleWhitelist:
     tags:
     - BorgModuleGeneric
@@ -199,7 +203,8 @@
 
   defaultModules:
   - BorgModuleMusique
-  - BorgModuleService
+  - BorgModuleBartender # imp
+  - BorgModulePaper # imp
   - BorgModuleClowning
 
   radioChannels:

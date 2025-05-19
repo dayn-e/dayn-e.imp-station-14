@@ -1,0 +1,16 @@
+- type: loadout
+  id: ChefCuteApron
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: SeniorChef
+  equipment:
+    outerClothing: ClothingOuterApronCuteChef
+
+# Jumpsuit
+- type: loadout
+  id: ChefSpaceJumpsuit
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: SeniorChef
+  equipment:
+    jumpsuit: ClothingUniformSpaceJumpsuitChef

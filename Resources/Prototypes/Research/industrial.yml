@@ -14,12 +14,13 @@
   - MineralScannerEmpty
   - OreProcessorIndustrialMachineCircuitboard
   - ClothingMaskWeldingGas
+  - BorgModuleMining # imp
 
 - type: technology
   id: SpaceScanning
   name: research-technology-space-scanning
   icon:
-    sprite: Objects/Tools/handheld_mass_scanner.rsi
+    sprite: _Impstation/Objects/Tools/handheld_mass_scanner.rsi # imp
     state: icon
   discipline: Industrial
   tier: 1
@@ -65,9 +66,20 @@
   tier: 1
   cost: 10000
   recipeUnlocks:
-  - AutolatheHyperConvectionMachineCircuitboard
-  - ProtolatheHyperConvectionMachineCircuitboard
-  - CircuitImprinterHyperConvectionMachineCircuitboard
+  # Begin DeltaV Removals - replaced by upgrade kits + departmental techfabs
+  #- AutolatheHyperConvectionMachineCircuitboard
+  #- ProtolatheHyperConvectionMachineCircuitboard
+  #- CircuitImprinterHyperConvectionMachineCircuitboard
+  # End DeltaV Removals
+  # Begin DeltaV Additions
+  - LatheUpgradeKitHyper
+  - LatheUpgradeKitCryo
+  # End DeltaV Additions
+  # Begin Goobstation Additions
+  - UpgradeKitAutomation
+  - RoboticArmCircuitboard
+  - StorageBinCircuitboard
+  # End Goobstation Additions
   - SheetifierMachineCircuitboard
 
 - type: technology
@@ -91,7 +103,7 @@
   id: AtmosphericTech
   name: research-technology-atmospheric-tech
   icon:
-    sprite: Structures/Piping/Atmospherics/thermomachine.rsi
+    sprite: _Impstation/Structures/Piping/Atmospherics/thermomachine.rsi # imp
     state: freezerOff
   discipline: Industrial
   tier: 1
@@ -134,6 +146,7 @@
   - ShuttleConsoleCircuitboard
   - ThrusterMachineCircuitboard
   - GyroscopeMachineCircuitboard
+  - MiniGyroscopeMachineCircuitboard
   - MiniGravityGeneratorCircuitboard
 
 - type: technology
@@ -166,10 +179,12 @@
     - PowerDrill
     - JawsOfLife
     - BorgModuleAdvancedTool
+    - Fulton
+    - FultonBeacon
 
 - type: technology
-  id: MassExcavation
-  name: research-technology-excavation
+  id: AdvancedSalvage
+  name: research-technology-advanced-salvage
   icon:
     sprite: Objects/Tools/handdrilldiamond.rsi
     state: handdrill
@@ -180,6 +195,8 @@
     - OreBagOfHolding
     - MiningDrillDiamond
     - AdvancedMineralScannerEmpty
+    - Fulton
+    - FultonBeacon
 
 # Tier 3
 

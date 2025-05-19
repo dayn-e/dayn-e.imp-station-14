@@ -381,6 +381,13 @@
   name: salt
   suffix: Full
   components:
+  - type: Tag
+    tags:
+    - Salt
+    - Ore
+  - type: RevealRevenantOnCollide
+  - type: CollisionWake
+    enabled: false # Causes test fail
   - type: Stack
     stackType: SaltOre
   - type: Sprite

@@ -1,8 +1,8 @@
 - type: entity
   parent: BaseItem
   id: MMI
-  name: man-machine interface
-  description: A machine able to facilitate communication between a biological brain and electronics, enabling crew to continue to provide value after work-related incidents.
+  name: organic-synthetic interface #imp, renamed from man-machine interface
+  description: A machine able to facilitate communication between a biological brain and electronics, enabling crew to continue to provide value after work-related incidents. A first step towards a cyborg. # imp edit for clarity
   components:
   - type: Sprite
     sprite: Objects/Specific/Robotics/mmi.rsi
@@ -89,6 +89,8 @@
       roleName: positronic-brain-role-name
       roleDescription: positronic-brain-role-description
       roleRules: ghost-role-information-silicon-rules
+      mindRoles:
+      - MindRoleGhostRoleSilicon
       wipeVerbText: positronic-brain-wipe-device-verb-text
       wipeVerbPopup: positronic-brain-wiped-device
       stopSearchVerbText: positronic-brain-stop-searching-verb-text
@@ -135,3 +137,5 @@
       whitelist:
         components:
         - SecretStash
+    - type: StealTarget #imp
+      stealGroup: PositronicBrains

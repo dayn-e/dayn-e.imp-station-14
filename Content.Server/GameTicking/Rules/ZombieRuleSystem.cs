@@ -15,9 +15,11 @@ using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Roles;
 using Content.Shared.Zombies;
+using Content.Shared._Impstation.Ghost;
 using Robust.Shared.Player;
 using Robust.Shared.Timing;
 using System.Globalization;
+using Content.Server.Announcements.Systems;
 
 namespace Content.Server.GameTicking.Rules;
 
@@ -33,6 +35,7 @@ public sealed class ZombieRuleSystem : GameRuleSystem<ZombieRuleComponent>
     [Dependency] private readonly StationSystem _station = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly ZombieSystem _zombie = default!;
+    [Dependency] private readonly AnnouncerSystem _announcer = default!;
 
     public override void Initialize()
     {
@@ -119,7 +122,9 @@ public sealed class ZombieRuleSystem : GameRuleSystem<ZombieRuleComponent>
         {
             foreach (var station in _station.GetStations())
             {
-                _chat.DispatchStationAnnouncement(station, Loc.GetString("zombie-shuttle-call"), colorOverride: Color.Crimson);
+                _announcer.SendAnnouncement(_announcer.GetAnnouncementId("ShuttleCalled"),
+                    _station.GetInOwningStation(station), "zombie-shuttle-call",
+                    colorOverride: Color.Crimson);
             }
             _roundEnd.RequestRoundEnd(null, false);
         }
@@ -198,6 +203,9 @@ public sealed class ZombieRuleSystem : GameRuleSystem<ZombieRuleComponent>
         while (players.MoveNext(out var uid, out _, out _, out var mob, out var xform))
         {
             if (!_mobState.IsAlive(uid, mob))
+                continue;
+
+            if (TryComp<GhostBarPatronComponent>(uid, out _))
                 continue;
 
             if (zombers.HasComponent(uid))

@@ -8,7 +8,7 @@ namespace Content.Shared.Xenoarchaeology.XenoArtifacts;
 /// <summary>
 /// This is a prototype for...
 /// </summary>
-[Prototype("artifactTrigger")]
+[Prototype]
 [DataDefinition]
 public sealed partial class ArtifactTriggerPrototype : IPrototype
 {
@@ -21,6 +21,9 @@ public sealed partial class ArtifactTriggerPrototype : IPrototype
 
     [DataField("targetDepth")]
     public int TargetDepth = 0;
+
+    [DataField("triggerProb")]
+    public float TriggerProb = 1f;
 
     [DataField("triggerHint")]
     public string? TriggerHint;

@@ -1,0 +1,20 @@
+- type: Tag
+  id: ClothingRobesGoblin
+
+- type: Tag
+  id: PlantAnalyzer
+
+- type: Tag
+  id: PrizeTicket
+
+- type: Tag
+  id: Mail
+
+- type: Tag
+  id: MailCapsule
+
+- type: Tag
+  id: NFFoamRPG
+
+- type: Tag #imp
+  id: SpaceBladeSec

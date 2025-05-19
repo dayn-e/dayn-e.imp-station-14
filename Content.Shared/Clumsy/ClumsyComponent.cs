@@ -100,4 +100,5 @@ public sealed partial class ClumsyComponent : Component
 
     [DataField]
     public LocId VaulingFailedMessageForced = "forced-bonkable-success-message";
+
 }

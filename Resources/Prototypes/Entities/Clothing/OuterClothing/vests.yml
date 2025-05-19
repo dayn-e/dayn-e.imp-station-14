@@ -1,6 +1,6 @@
 #Web vest
 - type: entity
-  parent: [ClothingOuterStorageBase, AllowSuitStorageClothing, BaseSyndicateContraband]
+  parent: [ClothingOuterStorageBase, AllowSuitStorageClothing, Tier3Contraband]
   id: ClothingOuterVestWeb
   name: web vest
   description: A synthetic armor vest. This one has added webbing and ballistic plates.
@@ -42,7 +42,7 @@
 
 #Detective's vest
 - type: entity
-  parent: [ClothingOuterArmorBasic, BaseRestrictedContraband]
+  parent: [ClothingOuterArmorBase, BaseSecurityContraband]
   id: ClothingOuterVestDetective
   name: detective's vest
   description: A hard-boiled private investigator's armored vest.
@@ -61,8 +61,17 @@
   components:
   - type: Sprite
     sprite: Clothing/OuterClothing/Vests/hazard.rsi
+    layers:
+    - state: icon
+    - state: icon-unshaded
+      shader: unshaded
   - type: Clothing
     sprite: Clothing/OuterClothing/Vests/hazard.rsi
+    clothingVisuals:
+      outerClothing:
+      - state: equipped-OUTERCLOTHING
+      - state: equipped-OUTERCLOTHING-unshaded
+        shader: unshaded
   - type: Tag
     tags:
     - HiViz
@@ -86,7 +95,24 @@
   name: tank harness
   description: A simple harness that can hold a gas tank.
   components:
+  - type: Item
+    size: Small
   - type: Sprite
     sprite: Clothing/OuterClothing/Vests/tankharness.rsi
   - type: Clothing
     sprite: Clothing/OuterClothing/Vests/tankharness.rsi
+
+#Command Tank Harness
+- type: entity
+  parent: [ClothingOuterBase, AllowSuitStorageClothingGasTanks, BaseCommandContraband]
+  id: ClothingOuterVestTankCommand
+  name: command tank harness
+  description: An ornate, low-profile harness capable of holding a gas tank.
+  components:
+  - type: Item
+    size: Small
+    storedRotation: -90
+  - type: Sprite
+    sprite: Clothing/OuterClothing/Vests/tankharnesscommand.rsi
+  - type: Clothing
+    sprite: Clothing/OuterClothing/Vests/tankharnesscommand.rsi

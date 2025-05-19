@@ -1,9 +1,11 @@
+using Content.Shared.Dataset;
+using Content.Shared.Humanoid.Markings;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 
 namespace Content.Shared.Humanoid.Prototypes;
 
-[Prototype("species")]
+[Prototype]
 public sealed partial class SpeciesPrototype : IPrototype
 {
     /// <summary>
@@ -42,7 +44,7 @@ public sealed partial class SpeciesPrototype : IPrototype
     // sprite accessories.
 
     [DataField("sprites")]
-    public string SpriteSet { get; private set; } = default!;
+    public ProtoId<HumanoidSpeciesBaseSpritesPrototype> SpriteSet { get; private set; } = default!;
 
     /// <summary>
     ///     Default skin tone for this species. This applies for non-human skin tones.
@@ -61,7 +63,7 @@ public sealed partial class SpeciesPrototype : IPrototype
     ///     The limit of body markings that you can place on this species.
     /// </summary>
     [DataField("markingLimits")]
-    public string MarkingPoints { get; private set; } = default!;
+    public ProtoId<MarkingPointsPrototype> MarkingPoints { get; private set; } = default!;
 
     /// <summary>
     ///     Humanoid species variant used by this entity.
@@ -82,13 +84,17 @@ public sealed partial class SpeciesPrototype : IPrototype
     public HumanoidSkinColor SkinColoration { get; private set; }
 
     [DataField]
-    public string MaleFirstNames { get; private set; } = "names_first_male";
+    public ProtoId<LocalizedDatasetPrototype> MaleFirstNames { get; private set; } = "NamesFirstMale";
 
     [DataField]
-    public string FemaleFirstNames { get; private set; } = "names_first_female";
+    public ProtoId<LocalizedDatasetPrototype> FemaleFirstNames { get; private set; } = "NamesFirstFemale";
 
     [DataField]
-    public string LastNames { get; private set; } = "names_last";
+    public ProtoId<LocalizedDatasetPrototype> MiddleNames { get; private set; } = "NamesMiddle"; // Imp addition
+
+    [DataField]
+    public ProtoId<LocalizedDatasetPrototype> LastNames { get; private set; } = "NamesLast";
+
 
     [DataField]
     public SpeciesNaming Naming { get; private set; } = SpeciesNaming.FirstLast;
@@ -104,22 +110,25 @@ public sealed partial class SpeciesPrototype : IPrototype
 
     /// <summary>
     ///     Characters younger than this appear young.
+    ///     imp edit: 30 is not middle aged. i fucking hate you so much holy shit
     /// </summary>
     [DataField]
-    public int YoungAge = 30;
+    public int YoungAge = 40;
 
     /// <summary>
     ///     Characters older than this appear old. Characters in between young and old age appear middle aged.
+    ///     hivehum edit this is so i can make garba gleef 60 without him getting called old lol
     /// </summary>
     [DataField]
-    public int OldAge = 60;
+    public int OldAge = 70;
 
     /// <summary>
     ///     Characters cannot be older than this. Only used for restrictions...
     ///     although imagine if ghosts could age people WYCI...
+    ///     imp edit. we're brave. this will only matter when newmed drops, anyway
     /// </summary>
     [DataField]
-    public int MaxAge = 120;
+    public int MaxAge = 999;
 }
 
 public enum SpeciesNaming : byte
@@ -127,5 +136,6 @@ public enum SpeciesNaming : byte
     First,
     FirstLast,
     FirstDashFirst,
+    FirstMiddleLast,
     TheFirstofLast,
 }

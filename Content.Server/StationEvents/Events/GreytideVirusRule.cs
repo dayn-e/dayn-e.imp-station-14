@@ -1,4 +1,5 @@
 using Content.Server.StationEvents.Components;
+using Content.Server.Announcements.Systems;
 using Content.Shared.Access;
 using Content.Shared.Access.Systems;
 using Content.Shared.Access.Components;
@@ -9,6 +10,7 @@ using Content.Shared.GameTicking.Components;
 using Content.Shared.Station.Components;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
+using Robust.Shared.Player;
 
 namespace Content.Server.StationEvents.Events;
 
@@ -24,6 +26,7 @@ public sealed class GreytideVirusRule : StationEventSystem<GreytideVirusRuleComp
     [Dependency] private readonly LockSystem _lock = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly AnnouncerSystem _announcer = default!;
 
     protected override void Added(EntityUid uid, GreytideVirusRuleComponent virusComp, GameRuleComponent gameRule, GameRuleAddedEvent args)
     {
@@ -33,8 +36,13 @@ public sealed class GreytideVirusRule : StationEventSystem<GreytideVirusRuleComp
         // pick severity randomly from range if not specified otherwise
         virusComp.Severity ??= virusComp.SeverityRange.Next(_random);
         virusComp.Severity = Math.Min(virusComp.Severity.Value, virusComp.AccessGroups.Count);
-
-        stationEvent.StartAnnouncement = Loc.GetString("station-event-greytide-virus-start-announcement", ("severity", virusComp.Severity.Value));
+        _announcer.SendAnnouncement(
+            _announcer.GetAnnouncementId(args.RuleId),
+            Filter.Broadcast(),
+            Loc.GetString("station-event-greytide-virus-start-announcement", ("severity", virusComp.Severity.Value)),
+            null,
+            Color.Gold
+        );
         base.Added(uid, virusComp, gameRule, args);
     }
     protected override void Started(EntityUid uid, GreytideVirusRuleComponent virusComp, GameRuleComponent gameRule, GameRuleStartedEvent args)
@@ -94,11 +102,11 @@ public sealed class GreytideVirusRule : StationEventSystem<GreytideVirusRuleComp
                 continue;
 
             // use the access reader from the door electronics if they exist
-            if (!_access.GetMainAccessReader(airlockUid, out var accessComp))
+            if (!_access.GetMainAccessReader(airlockUid, out var accessEnt))
                 continue;
 
             // check access
-            if (!_access.AreAccessTagsAllowed(accessIds, accessComp) || _access.AreAccessTagsAllowed(virusComp.Blacklist, accessComp))
+            if (!_access.AreAccessTagsAllowed(accessIds, accessEnt.Value.Comp) || _access.AreAccessTagsAllowed(virusComp.Blacklist, accessEnt.Value.Comp))
                 continue;
 
             // open and bolt airlocks

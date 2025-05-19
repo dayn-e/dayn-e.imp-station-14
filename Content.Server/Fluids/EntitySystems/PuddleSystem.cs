@@ -1,4 +1,6 @@
+using System.Linq;
 using Content.Server.Administration.Logs;
+using Content.Server.Chemistry.TileReactions;
 using Content.Server.DoAfter;
 using Content.Server.Fluids.Components;
 using Content.Server.Spreader;
@@ -340,7 +342,7 @@ public sealed partial class PuddleSystem : SharedPuddleSystem
 
         _deletionQueue.Remove(entity);
         UpdateSlip(entity, entity.Comp, args.Solution);
-        UpdateSlow(entity, args.Solution);
+        UpdateSlow(entity, entity.Comp, args.Solution);
         UpdateEvaporation(entity, args.Solution);
         UpdateAppearance(entity, entity.Comp);
     }
@@ -387,23 +389,36 @@ public sealed partial class PuddleSystem : SharedPuddleSystem
     private void UpdateSlip(EntityUid entityUid, PuddleComponent component, Solution solution)
     {
         var isSlippery = false;
+        var isSuperSlippery = false;
         // The base sprite is currently at 0.3 so we require at least 2nd tier to be slippery or else it's too hard to see.
         var amountRequired = FixedPoint2.New(component.OverflowVolume.Float() * LowThreshold);
         var slipperyAmount = FixedPoint2.Zero;
+
+        // Utilize the defaults from their relevant systems... this sucks, and is a bandaid
+        var launchForwardsMultiplier = SlipperyComponent.DefaultLaunchForwardsMultiplier;
+        var paralyzeTime = SlipperyComponent.DefaultParalyzeTime;
+        var requiredSlipSpeed = StepTriggerComponent.DefaultRequiredTriggeredSpeed;
 
         foreach (var (reagent, quantity) in solution.Contents)
         {
             var reagentProto = _prototypeManager.Index<ReagentPrototype>(reagent.Prototype);
 
-            if (reagentProto.Slippery)
-            {
-                slipperyAmount += quantity;
+            if (!reagentProto.Slippery)
+                continue;
+            slipperyAmount += quantity;
 
-                if (slipperyAmount > amountRequired)
-                {
-                    isSlippery = true;
-                    break;
-                }
+            if (slipperyAmount <= amountRequired)
+                continue;
+            isSlippery = true;
+
+            foreach (var tileReaction in reagentProto.TileReactions)
+            {
+                if (tileReaction is not SpillTileReaction spillTileReaction)
+                    continue;
+                isSuperSlippery = spillTileReaction.SuperSlippery;
+                launchForwardsMultiplier = launchForwardsMultiplier < spillTileReaction.LaunchForwardsMultiplier ? spillTileReaction.LaunchForwardsMultiplier : launchForwardsMultiplier;
+                requiredSlipSpeed = requiredSlipSpeed > spillTileReaction.RequiredSlipSpeed ? spillTileReaction.RequiredSlipSpeed : requiredSlipSpeed;
+                paralyzeTime = paralyzeTime < spillTileReaction.ParalyzeTime ? spillTileReaction.ParalyzeTime : paralyzeTime;
             }
         }
 
@@ -413,6 +428,14 @@ public sealed partial class PuddleSystem : SharedPuddleSystem
             _stepTrigger.SetActive(entityUid, true, comp);
             var friction = EnsureComp<TileFrictionModifierComponent>(entityUid);
             _tile.SetModifier(entityUid, TileFrictionController.DefaultFriction * 0.5f, friction);
+
+            if (!TryComp<SlipperyComponent>(entityUid, out var slipperyComponent))
+                return;
+            slipperyComponent.SuperSlippery = isSuperSlippery;
+            _stepTrigger.SetRequiredTriggerSpeed(entityUid, requiredSlipSpeed);
+            slipperyComponent.LaunchForwardsMultiplier = launchForwardsMultiplier;
+            slipperyComponent.ParalyzeTime = paralyzeTime;
+
         }
         else if (TryComp<StepTriggerComponent>(entityUid, out var comp))
         {
@@ -421,19 +444,30 @@ public sealed partial class PuddleSystem : SharedPuddleSystem
         }
     }
 
-    private void UpdateSlow(EntityUid uid, Solution solution)
+    private void UpdateSlow(EntityUid uid, PuddleComponent component, Solution solution)
     {
-        var maxViscosity = 0f;
-        foreach (var (reagent, _) in solution.Contents)
+        var totalViscosity = 0f;
+        var totalQuantity = 0f;
+        var fullPuddleAmount = FixedPoint2.New(component.OverflowVolume.Float() * LowThreshold);
+
+        foreach (var (reagent, quantity) in solution.Contents)
         {
+            var reagentQuant = quantity.Float();
             var reagentProto = _prototypeManager.Index<ReagentPrototype>(reagent.Prototype);
-            maxViscosity = Math.Max(maxViscosity, reagentProto.Viscosity);
+
+            totalViscosity += reagentQuant * reagentProto.Viscosity;
+            totalQuantity += reagentQuant;
         }
 
-        if (maxViscosity > 0)
+        totalViscosity /= totalQuantity;
+
+        if (totalQuantity < fullPuddleAmount)
+            totalViscosity /= 2;
+
+        if (totalViscosity != 0)
         {
             var comp = EnsureComp<SpeedModifierContactsComponent>(uid);
-            var speed = 1 - maxViscosity;
+            var speed = 1 - totalViscosity;
             _speedModContacts.ChangeModifiers(uid, speed, comp);
         }
         else

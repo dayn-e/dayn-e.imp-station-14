@@ -21,6 +21,7 @@
   - type: Tag
     tags:
     - Wall
+  - type: IsRoof
   - type: Sprite
     drawdepth: Walls
   - type: Icon
@@ -50,15 +51,13 @@
   - type: RadiationBlocker
     resistance: 2
   - type: BlockWeather
+  - type: SunShadowCast
 
 - type: entity
   parent: BaseWall
   id: WallBrick
   name: brick wall
   components:
-  - type: Tag
-    tags:
-      - Wall
   - type: Sprite
     sprite: Structures/Walls/brick.rsi
   - type: Icon
@@ -82,7 +81,7 @@
         acts: [ "Destruction" ]
 
   - type: IconSmooth
-    key: bricks
+    key: walls
     base: brick
 
 - type: entity
@@ -546,6 +545,7 @@
   - type: Tag
     tags:
     - Wall
+    - Diagonal
   - type: Sprite
     drawdepth: Walls
     sprite: Structures/Walls/plastitanium_diagonal.rsi
@@ -687,6 +687,9 @@
     snap:
     - Wall
   components:
+  - type: Tag
+    tags:
+    - Diagonal
   - type: Sprite
     drawdepth: Walls
     sprite: Structures/Walls/reinforced_diagonal.rsi
@@ -829,6 +832,7 @@
   - type: Tag
     tags:
     - Wall
+    - Diagonal
   - type: Sprite
     drawdepth: Walls
     sprite: Structures/Walls/shuttle_diagonal.rsi
@@ -959,6 +963,9 @@
   name: shuttle wall
   suffix: Interior
   components:
+  - type: Tag
+    tags:
+      - Wall
   - type: RCDDeconstructable
     cost: 6
     delay: 8
@@ -1104,6 +1111,109 @@
         node: girder
       - !type:DoActsBehavior
         acts: ["Destruction"]
+
+- type: entity
+  parent: BaseWall
+  id: WallSolidChitin
+  name: solid chitin
+  components:
+  - type: Tag
+    tags:
+      - Wall
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 400
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalSlam
+    - trigger:
+        !type:DamageTrigger
+        damage: 200
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalSlam
+      - !type:ChangeConstructionNodeBehavior
+        node: girder
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+  - type: Sprite
+    sprite: Structures/Walls/xeno.rsi
+  - type: Icon
+    sprite: Structures/Walls/xeno.rsi
+  - type: IconSmooth
+    key: chitin
+    base: solid
+  - type: Construction
+    graph: Girder
+    node: wallChitin
+  - type: RCDDeconstructable
+    cost: 6
+    delay: 8
+    fx: EffectRCDDeconstruct8
+
+- type: entity
+  parent: BaseWall
+  id: WallReinforcedChitin
+  name: reinforced chitin
+  components:
+  - type: Sprite
+    sprite: Structures/Walls/xeno.rsi
+  - type: Icon
+    sprite: Structures/Walls/xeno.rsi
+    state: rgeneric
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: StructuralMetallicStrong
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 600
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalSlam
+    - trigger:
+        !type:DamageTrigger
+        damage: 400
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalSlam
+      - !type:ChangeConstructionNodeBehavior
+        node: girder
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.ReinforcedWallVisuals.DeconstructionStage:
+        ReinforcedWallVisualLayers.Deconstruction:
+          -1: { visible: false }
+          0: { state: reinf_construct-0, visible: true}
+          1: { state: reinf_construct-1, visible: true}
+          2: { state: reinf_construct-2, visible: true}
+          3: { state: reinf_construct-3, visible: true}
+          4: { state: reinf_construct-4, visible: true}
+          5: { state: reinf_construct-5, visible: true}
+  - type: StaticPrice
+    price: 250
+  - type: RadiationBlocker
+    resistance: 5
+  - type: IconSmooth
+    key: chitin
+    base: reinf_over
+  - type: Construction
+    graph: Girder
+    node: reinforcedWallChitin
 
 - type: entity
   parent: BaseWall
@@ -1259,7 +1369,10 @@
   parent: BaseWall
   id: WallMining
   name: mining wall
+  description: Rugged and heat-resistant. #imp
   components:
+  - type: StaticPrice
+    price: 400
   - type: Tag
     tags:
       - Wall
@@ -1278,6 +1391,9 @@
   - type: IconSmooth
     key: walls
     base: mining
+  - type: Construction #imp
+    graph: Girder
+    node: miningWall
   - type: RandomIconSmooth
     randomStates:
     - mining
@@ -1286,6 +1402,7 @@
 
 - type: entity
   parent: WallShuttleDiagonal
+  description: Rugged and heat-resistant. #imp
   id: WallMiningDiagonal
   name: mining wall
   suffix: diagonal
@@ -1294,6 +1411,9 @@
     snap:
     - Wall
   components:
+  - type: Construction #imp
+    graph: Girder
+    node: diagonalMiningWall
   - type: Sprite
     drawdepth: Walls
     sprite: Structures/Walls/mining_diagonal.rsi

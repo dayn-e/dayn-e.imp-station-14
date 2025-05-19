@@ -2,18 +2,31 @@
   id: DefaultMapPool
   maps:
   - Amber
+  - Atlas
   - Bagel
+  - Banana
+  - Barratry
+  - Boat
   - Box
+  - Cluster
   - Cog
+  - Convex
   - Core
   - Elkridge
-  - Fland
+  #- Fland
   #- Gate
-  - Loop
+  - Hummingbird
+  - Luna
+  #- Loop
   - Marathon
   - Meta
   - Oasis
   - Omega
+  #- Origin
   - Packed
+  - Plasma
   - Reach
-  #- Train
+  - Saltern
+  - Train
+  - Union
+  - Xeno

@@ -3,6 +3,8 @@
 - type: latheRecipe
   abstract: true
   id: BaseJumpsuitRecipe
+  categories:
+  - Jumpsuits
   completetime: 4
   materials:
     Cloth: 300
@@ -11,6 +13,9 @@
   abstract: true
   parent: BaseJumpsuitRecipe
   id: BaseCommandJumpsuitRecipe
+  categories:
+  - Jumpsuits
+  - Command
   materials:
     Cloth: 300
     Durathread: 100
@@ -18,6 +23,8 @@
 - type: latheRecipe
   abstract: true
   id: BaseCoatRecipe
+  categories:
+  - Coats
   completetime: 3.2 # don't ask why its faster than a jumpsuit??
   materials:
     Cloth: 500
@@ -27,6 +34,9 @@
   abstract: true
   parent: BaseCoatRecipe
   id: BaseCommandCoatRecipe
+  categories:
+  - Coats
+  - Command
   materials:
     Cloth: 500
     Durathread: 300
@@ -34,14 +44,9 @@
 - type: latheRecipe
   abstract: true
   id: BaseHatRecipe
+  categories:
+  - Hats
   completetime: 2
-  materials:
-    Cloth: 100
-
-- type: latheRecipe
-  abstract: true
-  id: BaseCarpetRecipe
-  completetime: 1
   materials:
     Cloth: 100
 
@@ -49,6 +54,9 @@
   abstract: true
   parent: BaseHatRecipe
   id: BaseCommandHatRecipe
+  categories:
+  - Hats
+  - Command
   materials:
     Cloth: 100
     Durathread: 50
@@ -56,11 +64,13 @@
 - type: latheRecipe
   abstract: true
   id: BaseNeckClothingRecipe
+  categories:
+  - Neck
   completetime: 2
   materials:
     Cloth: 200
 
-# Recipes
+## Recipes
 
 # Jumpsuits/skirts
 - type: latheRecipe
@@ -72,6 +82,11 @@
   parent: BaseJumpsuitRecipe
   id: ClothingUniformJumpskirtColorGrey
   result: ClothingUniformJumpskirtColorGrey
+  
+- type: latheRecipe
+  parent: BaseJumpsuitRecipe
+  id: ClothingUniformJumpsuitLoungewear
+  result: ClothingUniformJumpsuitLoungewear
 
 - type: latheRecipe
   parent: BaseJumpsuitRecipe
@@ -729,6 +744,11 @@
 
 - type: latheRecipe
   parent: BaseCoatRecipe
+  id: ClothingOuterWinterBrigmedic
+  result: ClothingOuterWinterBrigmedic
+
+- type: latheRecipe
+  parent: BaseCoatRecipe
   id: ClothingOuterWinterSyndie
   result: ClothingOuterWinterSyndie
 
@@ -917,48 +937,57 @@
   id: ClothingNeckScarfStripedPurple
   result: ClothingNeckScarfStripedPurple
 
-# Carpets
 - type: latheRecipe
-  parent: BaseCarpetRecipe
-  id: Carpet
-  result: FloorCarpetItemRed
+  parent: BaseNeckClothingRecipe
+  id: ClothingNeckCloakTrans
+  result: ClothingNeckCloakTrans
 
 - type: latheRecipe
-  parent: BaseCarpetRecipe
-  id: CarpetBlack
-  result: FloorCarpetItemBlack
+  parent: BaseNeckClothingRecipe
+  id: ClothingNeckCloakAce
+  result: ClothingNeckCloakAce
 
 - type: latheRecipe
-  parent: BaseCarpetRecipe
-  id: CarpetPink
-  result: FloorCarpetItemPink
+  parent: BaseNeckClothingRecipe
+  id: ClothingNeckCloakAro
+  result: ClothingNeckCloakAro
 
 - type: latheRecipe
-  parent: BaseCarpetRecipe
-  id: CarpetBlue
-  result: FloorCarpetItemBlue
+  parent: BaseNeckClothingRecipe
+  id: ClothingNeckCloakBi
+  result: ClothingNeckCloakBi
 
 - type: latheRecipe
-  parent: BaseCarpetRecipe
-  id: CarpetGreen
-  result: FloorCarpetItemGreen
+  parent: BaseNeckClothingRecipe
+  id: ClothingNeckCloakIntersex
+  result: ClothingNeckCloakIntersex
 
 - type: latheRecipe
-  parent: BaseCarpetRecipe
-  id: CarpetOrange
-  result: FloorCarpetItemOrange
+  parent: BaseNeckClothingRecipe
+  id: ClothingNeckCloakLesbian
+  result: ClothingNeckCloakLesbian
 
 - type: latheRecipe
-  parent: BaseCarpetRecipe
-  id: CarpetPurple
-  result: FloorCarpetItemPurple
+  parent: BaseNeckClothingRecipe
+  id: ClothingNeckCloakGay
+  result: ClothingNeckCloakGay
 
 - type: latheRecipe
-  parent: BaseCarpetRecipe
-  id: CarpetCyan
-  result: FloorCarpetItemCyan
+  parent: BaseNeckClothingRecipe
+  id: ClothingNeckCloakEnby
+  result: ClothingNeckCloakEnby
 
 - type: latheRecipe
-  parent: BaseCarpetRecipe
-  id: CarpetWhite
-  result: FloorCarpetItemWhite
+  parent: BaseNeckClothingRecipe
+  id: ClothingNeckCloakPan
+  result: ClothingNeckCloakPan
+
+- type: latheRecipe
+  parent: BaseNeckClothingRecipe
+  id: ClothingNeckCloakBear
+  result: ClothingNeckCloakBear
+
+- type: latheRecipe
+  parent: BaseNeckClothingRecipe
+  id: ClothingNeckCloakStraight
+  result: ClothingNeckCloakStraight

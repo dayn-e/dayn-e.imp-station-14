@@ -8,7 +8,7 @@
   - type: AtmosDevice
   - type: Tag
     tags:
-      - Unstackable
+    - Unstackable
   - type: SubFloorHide
     blockInteractions: false
     blockAmbience: false
@@ -39,7 +39,11 @@
   - type: Rotatable
   - type: Transform
     noRot: false
+  - type: SubFloorHide
+    visibleLayers:
+    - enum.SubfloorLayers.FirstLayer
   - type: Sprite
+    drawdepth: FloorObjects #imp
     sprite: Structures/Piping/Atmospherics/pump.rsi
     layers:
     - sprite: Structures/Piping/Atmospherics/pipe.rsi
@@ -75,7 +79,10 @@
       path: /Audio/Ambience/Objects/gas_pump.ogg
   - type: AtmosMonitoringConsoleDevice
     navMapBlip: GasFlowRegulator
-    
+  - type: GuideHelp
+    guides:
+    - Pumps
+
 - type: entity
   parent: GasBinaryBase
   id: GasVolumePump
@@ -92,7 +99,11 @@
     - type: Rotatable
     - type: Transform
       noRot: false
+    - type: SubFloorHide
+      visibleLayers:
+      - enum.SubfloorLayers.FirstLayer
     - type: Sprite
+      drawdepth: FloorObjects #imp
       sprite: Structures/Piping/Atmospherics/pump.rsi
       layers:
         - sprite: Structures/Piping/Atmospherics/pipe.rsi
@@ -134,7 +145,13 @@
     - type: WiredNetworkConnection
     - type: AtmosMonitoringConsoleDevice
       navMapBlip: GasFlowRegulator
-    
+    - type: GuideHelp
+      guides:
+      - Pumps
+    - type: VentCrawTube
+      containerId: VentCrawTube
+    - type: VentCrawTransit
+
 - type: entity
   parent: GasBinaryBase
   id: GasPassiveGate
@@ -143,6 +160,9 @@
   placement:
     mode: SnapgridCenter
   components:
+    - type: SubFloorHide
+      visibleLayers:
+      - enum.SubfloorLayers.FirstLayer
     - type: Sprite
       sprite: Structures/Piping/Atmospherics/pump.rsi
       layers:
@@ -165,7 +185,13 @@
         path: /Audio/Ambience/Objects/gas_hiss.ogg
     - type: AtmosMonitoringConsoleDevice
       navMapBlip: GasValve
-      
+    - type: GuideHelp
+      guides:
+      - PassiveGate
+    - type: VentCrawTube
+      containerId: VentCrawTube
+    - type: VentCrawTransit
+
 - type: entity
   parent: GasBinaryBase
   id: GasValve
@@ -175,8 +201,12 @@
     mode: SnapgridCenter
   components:
     # TODO ATMOS: Give unique sprite.
+    - type: SubFloorHide
+      visibleLayers:
+      - enum.SubfloorLayers.FirstLayer
     - type: Sprite
-      sprite: Structures/Piping/Atmospherics/pump.rsi
+      drawdepth: FloorObjects #imp
+      sprite: _Impstation/Structures/Piping/Atmospherics/pump.rsi #imp
       layers:
         - sprite: Structures/Piping/Atmospherics/pipe.rsi
           state: pipeStraight
@@ -215,7 +245,13 @@
         path: /Audio/Ambience/Objects/gas_hiss.ogg
     - type: AtmosMonitoringConsoleDevice
       navMapBlip: GasValve
-      
+    - type: GuideHelp
+      guides:
+      - ManualValve
+    - type: VentCrawTube
+      containerId: VentCrawTube
+    - type: VentCrawTransit
+
 - type: entity
   parent: GasBinaryBase
   id: SignalControlledValve
@@ -225,7 +261,11 @@
     mode: SnapgridCenter
   components:
   - type: StationAiWhitelist
+  - type: SubFloorHide
+    visibleLayers:
+    - enum.SubfloorLayers.FirstLayer
   - type: Sprite
+    drawdepth: FloorObjects #imp
     sprite: Structures/Piping/Atmospherics/pump.rsi
     layers:
     - sprite: Structures/Piping/Atmospherics/pipe.rsi
@@ -250,9 +290,9 @@
     range: 200
   - type: DeviceLinkSink
     ports:
-      - Open
-      - Close
-      - Toggle
+    - Open
+    - Close
+    - Toggle
   - type: NodeContainer
     nodes:
       inlet:
@@ -276,7 +316,13 @@
       path: /Audio/Ambience/Objects/gas_hiss.ogg
   - type: AtmosMonitoringConsoleDevice
     navMapBlip: GasValve
-      
+  - type: GuideHelp
+    guides:
+    - SignalValve
+  - type: VentCrawTube
+    containerId: VentCrawTube
+  - type: VentCrawTransit
+
 - type: entity
   parent: GasBinaryBase
   id: GasPort
@@ -285,7 +331,11 @@
   placement:
     mode: SnapgridCenter
   components:
+    - type: SubFloorHide
+      visibleLayers:
+      - enum.SubfloorLayers.FirstLayer
     - type: Sprite
+      drawdepth: FloorObjects #imp
       sprite: Structures/Piping/Atmospherics/gascanisterport.rsi
       layers:
         - sprite: Structures/Piping/Atmospherics/pipe.rsi
@@ -307,7 +357,13 @@
       node: port
     - type: AtmosMonitoringConsoleDevice
       navMapBlip: GasVentOpening
-      
+    - type: GuideHelp
+      guides:
+      - GasCanisters
+    - type: VentCrawTube
+      containerId: VentCrawTube
+    - type: VentCrawTransit
+
 - type: entity
   parent: GasVentPump
   id: GasDualPortVentPump
@@ -316,6 +372,9 @@
   placement:
     mode: SnapgridCenter
   components:
+    - type: SubFloorHide
+      visibleLayers:
+      - enum.SubfloorLayers.FirstLayer
     - type: Sprite
       drawdepth: FloorObjects
       sprite: Structures/Piping/Atmospherics/vent.rsi
@@ -365,7 +424,13 @@
       enabled: true
     - type: AtmosMonitoringConsoleDevice
       navMapBlip: GasVentOpening
-      
+    - type: GuideHelp
+      guides:
+      - AirVent
+    - type: VentCrawTube
+      containerId: VentCrawTube
+    - type: VentCrawTransit
+
 - type: entity
   parent: [ BaseMachine, ConstructibleMachine ]
   id: GasRecycler
@@ -429,7 +494,7 @@
     board: GasRecyclerMachineCircuitboard
   - type: AtmosMonitoringConsoleDevice
     navMapBlip: GasValve
-    
+
 - type: entity
   parent: GasBinaryBase
   id: HeatExchanger
@@ -471,3 +536,35 @@
     node: radiator
   - type: AtmosMonitoringConsoleDevice
     navMapBlip: Thermoregulator
+  - type: GuideHelp
+    guides:
+    - Radiators
+
+- type: entity
+  parent: HeatExchanger
+  id: HeatExchangerBend
+  suffix: Bend
+  components:
+    - type: SubFloorHide
+      visibleLayers:
+      - enum.SubfloorLayers.FirstLayer
+    - type: Sprite
+      layers:
+      - sprite: Structures/Piping/Atmospherics/pipe.rsi
+        state: pipeBend
+        map: [ "enum.PipeVisualLayers.Pipe" ]
+      - state: heBend
+        map: [ "enum.SubfloorLayers.FirstLayer" ]
+    - type: NodeContainer
+      nodes:
+        inlet:
+          !type:PipeNode
+          nodeGroupID: Pipe
+          pipeDirection: South
+        outlet:
+          !type:PipeNode
+          nodeGroupID: Pipe
+          pipeDirection: West
+    - type: Construction
+      graph: GasBinary
+      node: bendradiator

@@ -52,7 +52,6 @@ public sealed class ChameleonClothingSystem : SharedChameleonClothingSystem
         {
             sprite.CopyFrom(otherSprite);
         }
-
         // Edgecase for PDAs to include visuals when UI is open
         if (TryComp(uid, out PdaBorderColorComponent? borderColor)
             && proto.TryGetComponent(out PdaBorderColorComponent? otherBorderColor, _factory))

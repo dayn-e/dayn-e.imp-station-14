@@ -13,13 +13,19 @@
     - !type:DepartmentTimeRequirement
       department: Security
       time: 36000 # 10 hrs
+    - !type:DepartmentTimeRequirement #imp
+      department: Cargo
+      time: 36000 # 10 hrs
+    - !type:DepartmentTimeRequirement #imp
+      department: Science
+      time: 36000 # 10 hrs
     - !type:DepartmentTimeRequirement
       department: Command
       time: 36000 # 10 hours
   weight: 20
   startingGear: HoPGear
   icon: "JobIconHeadOfPersonnel"
-  supervisors: job-supervisors-captain
+  supervisors: job-supervisors-captain #imp
   canBeAntag: false
   access:
   - Command
@@ -48,6 +54,15 @@
   - Cargo
   - Atmospherics
   - Medical
+  #imp edit start
+  - Courier
+  - Logistics
+  - Clown
+  - Librarian
+  - Mime
+  - Musician
+  - Reporter
+  #imp edit end
   special:
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant ]
@@ -58,10 +73,8 @@
 - type: startingGear
   id: HoPGear
   equipment:
-    shoes: ClothingShoesColorBrown
     id: HoPPDA
     gloves: ClothingHandsGlovesHop
-    ears: ClothingHeadsetAltCommand
     belt: BoxFolderClipboard
   storage:
     back:

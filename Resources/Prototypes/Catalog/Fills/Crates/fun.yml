@@ -41,6 +41,39 @@
     - id: PlushieMoth
     - id: PlushieArachind
     - id: PlushiePenguin
+    # imp edit start
+    - id: PlushieGray
+    - id: PlushieUrsaMinor
+    - id: PlushieBug
+      weight: 0.1
+    - id: PlushieEvilBug
+      weight: 0.01
+    - id: PlushieDecapoid
+    - id: PlushieSnail
+    - id: PlushieThaven
+    - id: PlushieKodepiia
+    - id: PlushieThavenWeird
+      weight: 0.1
+    - id: PlushieDwarf
+      weight: 0.1
+    - id: PlushieApid
+      weight: 0.5
+    - id: PlushieGoblin
+      weight: 0.5
+    - id: PlushieGollylad
+      weight: 0.1
+    - id: PlushieImp
+      weight: 0.1
+    - id: PlushieHeadofPersonnel
+      weight: 0.1
+    - id: PlushieCaptain
+      weight: 0.1
+    - id: PlushieOdds
+      weight: 0.4
+    - id: PlushieGiantBear
+      weight: 0.5
+    - id: PlushieGriffy
+    # imp edit end
 
 - type: entity
   id: CrateFunPlushie
@@ -73,6 +106,17 @@
             value: 3
 
 - type: entity
+  id: CrateFunFinfinPlushie
+  parent: CrateGenericSteel
+  name: one single fin fin plushie
+  description: A single ultra-rare plushie of the dolphin-bird Fin Fin. You aren't... actually going to buy this one, are you?
+  components:
+  - type: StorageFill
+    contents:
+      - id: PlushieFinfin
+        amount: 1
+
+- type: entity
   id: CrateFunInstrumentsVariety
   parent: CrateGenericSteel
   name: variety instrument collection
@@ -101,8 +145,6 @@
       - id: TromboneInstrument
         amount: 2
       - id: FrenchHornInstrument
-        amount: 2
-      - id: SaxophoneInstrument
         amount: 2
       - id: EuphoniumInstrument
       - id: TubaInstrument
@@ -140,6 +182,8 @@
       - id: FluteInstrument
       - id: HarmonicaInstrument
         amount: 2
+      - id: SaxophoneInstrument
+        amount: 2
       - id: OcarinaInstrument
       - id: PanFluteInstrument
 
@@ -166,7 +210,7 @@
   id: CrateFunInstrumentsSpecial
   parent: CrateGenericSteel
   name: special instrument collector's crate
-  description: Create some noise with this special collection of arguably-instruments! Centcomm is not responsible for any trauma caused by the contents.
+  description: Create some noise with this special collection of arguably-instruments! CentComm is not responsible for any trauma caused by the contents. # imp caps fix
   components:
   - type: StorageFill
     contents:
@@ -280,6 +324,21 @@
         amount: 4
 
 - type: entity
+  id: CrateFunFoamGuns
+  parent: CratePlastic
+  name: Foam Force crate
+  description: Contains four Foam Force rifles, some grenades, and extra ammo. It's [REDACTED] or nothing!
+  components:
+  - type: StorageFill
+    contents:
+    - id: WeaponRifleFoam
+      amount: 4
+    - id: BoxDonkSoftBox
+      amount: 2
+    - id: GrenadeFoamDart
+      amount: 4
+
+- type: entity
   id: CrateFunBoxing
   parent: CrateGenericSteel
   name: boxing crate
@@ -379,3 +438,13 @@
         amount: 1
         prob: 0.05
 
+- type: entity
+  id: CrateFun500Cigarettes
+  parent: CrateGenericSteel
+  name: 500 cigarettes
+  description: The tingles... Do you feel them?
+  components:
+  - type: StorageFill
+    contents:
+      - id: StackOfCigs
+        amount: 1

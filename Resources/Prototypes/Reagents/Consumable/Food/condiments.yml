@@ -19,6 +19,15 @@
   recognizable: true
 
 - type: reagent
+  id: Coldsauce
+  name: reagent-name-coldsauce
+  group: Foods
+  desc: reagent-desc-coldsauce
+  physicalDesc: reagent-physical-desc-cold
+  flavor: cold
+  color: skyblue
+
+- type: reagent
   id: Cornoil
   name: reagent-name-cornoil
   group: Foods
@@ -27,15 +36,6 @@
   flavor: oily
   color: yellow
   recognizable: true
-
-- type: reagent
-  id: Frostoil
-  name: reagent-name-frostoil
-  group: Foods
-  desc: reagent-desc-frostoil
-  physicalDesc: reagent-physical-desc-cold
-  flavor: cold
-  color: skyblue
 
 - type: reagent
   id: HorseradishSauce
@@ -131,6 +131,10 @@
       effects:
       - !type:SatiateHunger
         factor: 0.5
+        conditions: # imp
+        - !type:OrganType
+          type: Kodepiia
+          shouldHave: false
       - !type:SatiateThirst
         factor: -0.5 # high salt content
 
@@ -164,6 +168,21 @@
       # eating salt on its own kinda sucks, kids
       - !type:SatiateThirst
         factor: -0.5
+      - !type:HealthChange
+        conditions:
+        - !type:ReagentThreshold
+          min: 1
+        - !type:OrganType
+          type: Snail
+          shouldHave: true
+        damage:
+          types:
+            Poison: 4
+  tileReactions:
+    - !type:EnsureTileReaction
+      components:
+        - type: RevealRevenantOnCollide
+          popupText: revenant-revealed-salt
 
 - type: reagent
   id: Syrup
@@ -184,6 +203,10 @@
       effects:
       - !type:SatiateHunger
         factor: 6.0 #Stronger than cookedramen
+        conditions: # imp
+        - !type:OrganType
+          type: Kodepiia
+          shouldHave: false
   footstepSound:
     collection: FootstepBlood
     params:

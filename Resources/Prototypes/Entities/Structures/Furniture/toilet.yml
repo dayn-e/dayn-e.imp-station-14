@@ -39,9 +39,11 @@
       - HumanoidAppearance
       - Plunger
       - SolutionTransfer
+      - EntityStorage
     whitelist:
       components:
       - Item
+      - Goblin
     soundFlush: /Audio/Effects/Fluids/flush.ogg
     soundInsert: /Audio/Effects/Fluids/splash.ogg
   - type: Toilet
@@ -78,7 +80,7 @@
     interfaces:
       enum.DisposalUnitUiKey.Key:
         type: DisposalUnitBoundUserInterface
-  - type: RatKingRummageable
+  - type: Rummageable
   - type: SolutionContainerManager
     solutions:
       drainBuffer:

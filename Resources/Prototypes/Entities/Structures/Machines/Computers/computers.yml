@@ -1,5 +1,5 @@
 - type: entity
-  parent: BaseComputerAiAccess
+  parent: [ BaseComputerAiAccess, BaseEngineeringContraband ]
   id: ComputerAlert
   name: atmospheric alerts computer
   description: Used to access the station's atmospheric automated alert system.
@@ -48,9 +48,13 @@
             type: AtmosAlertsComputerBoundUserInterface
         enum.WiresUiKey.Key:
           type: WiresBoundUserInterface
+  - type: GuideHelp
+    guides:
+    - AtmosphericAlertsComputer
+    - DeviceMonitoringAndControl
 
 - type: entity
-  parent: BaseComputerAiAccess
+  parent: [ BaseComputerAiAccess, BaseEngineeringContraband ]
   id: ComputerAtmosMonitoring
   name: atmospheric network monitor
   description: Used to monitor the station's atmospheric networks.
@@ -81,6 +85,10 @@
         type: AtmosMonitoringConsoleBoundUserInterface
       enum.WiresUiKey.Key:
         type: WiresBoundUserInterface
+  - type: GuideHelp
+    guides:
+    - AtmosphericNetworkMonitor
+    - DeviceMonitoringAndControl
 
 - type: entity
   parent: BaseComputer
@@ -104,8 +112,6 @@
     radius: 1.5
     energy: 1.6
     color: "#43ccb5"
-  - type: Rotatable
-    rotateWhileAnchored: true
 
 - type: entity
   parent: BaseComputer
@@ -130,8 +136,6 @@
     radius: 1.5
     energy: 1.6
     color: "#43ccb5"
-  - type: Rotatable
-    rotateWhileAnchored: true
   - type: ItemSlots
     slots:
       disk_slot:
@@ -148,6 +152,9 @@
       board: !type:Container
         ents: []
       disk_slot: !type:ContainerSlot {}
+  - type: GuideHelp
+    guides:
+    - ShuttleCraft
 
 - type: entity
   parent: BaseComputerShuttle
@@ -171,7 +178,7 @@
     board: ShuttleConsoleCircuitboard
 
 - type: entity
-  parent: BaseComputerShuttle
+  parent: [ BaseComputerShuttle, Tier2Contraband ]
   id: ComputerShuttleSyndie
   name: syndicate shuttle console
   description: Used to pilot a syndicate shuttle.
@@ -203,7 +210,7 @@
     board: SyndicateShuttleConsoleCircuitboard
 
 - type: entity
-  parent: BaseComputerShuttle
+  parent: [ BaseComputerShuttle, BaseCargoContraband ]
   id: ComputerShuttleCargo
   name: cargo shuttle console
   description: Used to pilot the cargo shuttle.
@@ -266,7 +273,7 @@
     board: ComputerIFFCircuitboard
 
 - type: entity
-  parent: ComputerIFF
+  parent: [ ComputerIFF, Tier2Contraband ]
   id: ComputerIFFSyndicate
   name: IFF computer
   suffix: Syndicate
@@ -288,7 +295,7 @@
     board: ComputerIFFSyndicateCircuitboard
 
 - type: entity
-  parent: BaseComputerAiAccess
+  parent: [ BaseComputerAiAccess, BaseEngineeringContraband ]
   id: ComputerPowerMonitoring
   name: power monitoring computer
   description: It monitors power levels across the station.
@@ -330,7 +337,7 @@
         type: WiresBoundUserInterface
 
 - type: entity
-  parent: BaseComputerAiAccess
+  parent: [ BaseComputerAiAccess, BaseMedicalContraband ]
   id: ComputerMedicalRecords
   name: medical records computer
   description: This can be used to check medical records.
@@ -353,9 +360,19 @@
     color: "#1f8c28"
   - type: Computer
     board: MedicalRecordsComputerCircuitboard
+  # Begin CD - Character Records
+  - type: CharacterRecordConsole
+    consoleType: Medical
+  - type: UserInterface
+    interfaces:
+      enum.CharacterRecordConsoleKey.Key:
+        type: CharacterRecordConsoleBoundUserInterface
+  - type: ActivatableUI
+    key: enum.CharacterRecordConsoleKey.Key
+  # End CD - Character Records
 
 - type: entity
-  parent: BaseComputerAiAccess
+  parent: [ BaseComputerAiAccess, BaseSecurityContraband ]
   id: ComputerCriminalRecords
   name: criminal records computer
   description: This can be used to check criminal records. Only security can modify them.
@@ -363,12 +380,18 @@
   - type: CriminalRecordsConsole
   - type: UserInterface
     interfaces:
-      enum.CriminalRecordsConsoleKey.Key:
-        type: CriminalRecordsConsoleBoundUserInterface
+      # Begin CD - Character Records
+      enum.CharacterRecordConsoleKey.Key:
+        type: CharacterRecordConsoleBoundUserInterface
+      # End CD - Character Records
       enum.WiresUiKey.Key:
         type: WiresBoundUserInterface
+  # Begin CD - Character Records
+  - type: CharacterRecordConsole
+    consoleType: Security
   - type: ActivatableUI
-    key: enum.CriminalRecordsConsoleKey.Key
+    key: enum.CharacterRecordConsoleKey.Key
+  # End CD - Character Records
   - type: Sprite
     layers:
     - map: ["computerLayerBody"]
@@ -394,7 +417,7 @@
     - CriminalRecords
 
 - type: entity
-  parent: BaseComputerAiAccess
+  parent: [ BaseComputerAiAccess, BaseSecurityCommandContraband ]
   id: ComputerStationRecords
   name: station records computer
   description: This can be used to check station records.
@@ -402,12 +425,18 @@
   - type: GeneralStationRecordConsole
   - type: UserInterface
     interfaces:
-        enum.GeneralStationRecordConsoleKey.Key:
-          type: GeneralStationRecordConsoleBoundUserInterface
+      # Begin CD - Character Records
+        enum.CharacterRecordConsoleKey.Key:
+          type: CharacterRecordConsoleBoundUserInterface
+      # End CD - Character Records
         enum.WiresUiKey.Key:
           type: WiresBoundUserInterface
+  # Begin CD - Character Records
+  - type: CharacterRecordConsole
+    consoleType: Employment
   - type: ActivatableUI
-    key: enum.GeneralStationRecordConsoleKey.Key
+    key: enum.CharacterRecordConsoleKey.Key
+ # End CD - Character Records
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -458,7 +487,7 @@
     range: 1200
 
 - type: entity
-  parent: BaseComputerAiAccess
+  parent: [ BaseComputerAiAccess, BaseScienceContraband ]
   id: ComputerResearchAndDevelopment
   name: R&D computer
   description: A computer used to interface with R&D tools.
@@ -556,7 +585,7 @@
     - Xenoarchaeology
 
 - type: entity
-  parent: BaseComputerAiAccess
+  parent: [ BaseComputerAiAccess, BaseGrandTheftContraband ]
   id: ComputerId
   name: ID card computer
   description: Terminal for programming Nanotrasen employee ID cards to access parts of the station.
@@ -610,7 +639,7 @@
     color: "#3c5eb5"
   - type: Tag
     tags:
-    - EmagImmune
+    - AccessBreakerImmune
   - type: ItemSlots
   - type: ContainerContainer
     containers:
@@ -634,7 +663,7 @@
     color: "#1f8c28"
 
 - type: entity
-  parent: BaseComputerAiAccess
+  parent: [ BaseComputerAiAccess, BaseGrandTheftContraband ]
   id: ComputerComms
   name: communications computer
   description: A computer used to make station wide announcements via keyboard, set the appropriate alert level, and call the emergency shuttle.
@@ -709,7 +738,72 @@
     color: "#f71713"
 
 - type: entity
-  parent: BaseComputerAiAccess
+  parent: ComputerComms
+  id: WizardComputerComms
+  name: wizard communications computer
+  description: A computer capable of magically projecting your speech to the station. Using this to make an announcement will alert the station to your presence.
+  components:
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: comm_wizard
+    - map: ["computerLayerKeys"]
+      state: wizard_key
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: AccessReader
+    access: [[ "Wizard" ]]
+  - type: CommunicationsConsole
+    title: comms-console-announcement-title-wizard
+    color: "#ff00ff"
+    canShuttle: false
+    global: true #announce to everyone they're about to fuck shit up
+    sound: /Audio/Announcements/war.ogg
+  - type: Computer
+    board: WizardCommsComputerCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 1.6
+    color: "#F317F3"
+
+- type: entity
+  parent: ComputerComms
+  id: CentcommComputerComms
+  name: Central Command communications computer # imp caps fix
+  description: A computer used to make world wide announcements via keyboard. The superior cousin of the regular communications computer.
+  components:
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: comm_logs
+    - map: ["computerLayerKeys"]
+      state: generic_keys
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: AccessReader
+    access: [[ "CentralCommand" ]]
+  - type: CommunicationsConsole
+    title: comms-console-announcement-title-centcom
+    color: "#1d8bad"
+    canShuttle: false
+    global: true
+  - type: Computer
+    board: CentcommCommsComputerCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 1.6
+    color: "#00FF00"
+
+- type: entity
+  parent: [ BaseComputerAiAccess, BaseEngineeringContraband ]
   id: ComputerSolarControl
   name: solar control computer
   description: A controller for solar panel arrays.
@@ -741,6 +835,13 @@
     radius: 1.5
     energy: 1.6
     color: "#e6e227"
+  - type: GuideHelp
+    guides:
+    - SolarPanels
+    - Power
+  - type: Tag
+    tags:
+      - DroneUsable
 
 - type: entity
   parent: BaseComputerAiAccess
@@ -778,7 +879,7 @@
 
 - type: entity
   id: ComputerCargoShuttle
-  parent: BaseComputerAiAccess
+  parent: [ BaseComputerAiAccess, BaseCargoContraband ]
   name: cargo shuttle computer
   description: Used to order the shuttle.
   components:
@@ -817,11 +918,12 @@
 
 - type: entity
   id: ComputerCargoOrders
-  parent: BaseComputerAiAccess
+  parent: [ BaseComputerAiAccess, BaseCargoContraband ]
   name: cargo request computer
   description: Used to order supplies and approve requests.
   components:
   - type: Sprite
+    sprite: _Impstation/Structures/Machines/computers.rsi #Imp
     layers:
     - map: ["computerLayerBody"]
       state: computer
@@ -853,7 +955,7 @@
     energy: 1.6
     color: "#b89f25"
   - type: AccessReader
-    access: [["Cargo"]]
+    access: [["Logistics"]] #Imp
   - type: DeviceNetwork
     deviceNetId: Wireless
     receiveFrequencyId: BasicDevice
@@ -869,11 +971,12 @@
 
 - type: entity
   id: ComputerCargoBounty
-  parent: BaseComputerAiAccess
+  parent: [ BaseComputerAiAccess, BaseCargoContraband ]
   name: cargo bounty computer
   description: Used to manage currently active bounties.
   components:
   - type: Sprite
+    sprite: _Impstation/Structures/Machines/computers.rsi #Imp
     layers:
     - map: ["computerLayerBody"]
       state: computer
@@ -962,7 +1065,7 @@
 
 - type: entity
   id: ComputerSalvageExpedition
-  parent: BaseComputerAiAccess
+  parent: [ BaseComputerAiAccess, BaseCargoContraband ]
   name: salvage expeditions computer
   description: Used to accept salvage missions, if you're tough enough.
   components:
@@ -1095,7 +1198,7 @@
 
 - type: entity
   id: ComputerPalletConsole
-  parent: BaseComputerAiAccess
+  parent: [ BaseComputerAiAccess, BaseCargoContraband ]
   name: cargo sale computer
   description: Used to sell goods loaded onto cargo pallets.
   components:
@@ -1156,7 +1259,7 @@
   - type: DeviceNetworkRequiresPower
   - type: NewsWriter
   - type: AccessReader
-    access: [[ "Service" ]]
+    access: [[ "Reporter" ]] #imp edit
   - type: ActivatableUI
     key: enum.NewsWriterUiKey.Key
   - type: ActivatableUIRequiresVision
@@ -1177,6 +1280,7 @@
   # Putting this as "DO NOT MAP" until the performance issues are fixed.
   # And it's more fleshed out.
   suffix: TESTING, DO NOT MAP
+  categories: [ DoNotMap ]
   components:
     - type: Sprite
       layers:
@@ -1217,7 +1321,7 @@
     - type: AtmosDevice
 
 - type: entity
-  parent: BaseComputerAiAccess
+  parent: [ BaseComputerAiAccess, BaseCommandContraband ]
   id: ComputerRoboticsControl
   name: robotics control console
   description: Used to remotely monitor, disable and destroy the station's cyborgs.
@@ -1261,7 +1365,7 @@
 
 - type: entity
   id: StationAiUploadComputer
-  parent: BaseComputer
+  parent: [ BaseComputer, BaseCommandContraband ]
   name: AI upload console
   description: Used to update the laws of the station AI.
   components:

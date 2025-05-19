@@ -4,6 +4,7 @@
   parent: [ SimpleMobBase, MobCombat ]
   description: He's da rat. He make da roolz.
   components:
+  - type: VentCrawler
   - type: CombatMode
   - type: MovementSpeedModifier
     baseWalkSpeed : 3.00
@@ -53,10 +54,11 @@
         path: /Audio/Weapons/Xeno/alien_claw_flesh1.ogg
     angle: 0
     animation: WeaponArcClaw
-    damage:
+    damage: # IMP: Significant nerf to this damage, but added structural. Formerly 12 slash 8 pierce 0 structural
       types:
-        Slash: 12
-        Piercing: 8
+        Slash: 4
+        Piercing: 2
+        Structural: 2
   - type: Body
     prototype: Rat
     requiredLegs: 1 # TODO: More than 1 leg
@@ -90,7 +92,9 @@
     makeSentient: true
     name: ghost-role-information-rat-king-name
     description: ghost-role-information-rat-king-description
-    rules: ghost-role-information-freeagent-rules
+    rules: ghost-role-information-antagonist-rat-king-rules # IMP
+    mindRoles:
+    - MindRoleGhostRoleSoloAntagonist
     raffle:
       settings: default
   - type: GhostTakeoverAvailable
@@ -98,13 +102,19 @@
     tags:
       - CannotSuicide
       - FootstepSound
+      - Meat #imp
   - type: NoSlip
   - type: RatKing
     hungerPerArmyUse: 25
     hungerPerDomainUse: 50
+  - type: CanRummage
+    rummageLoot: !type:NestedSelector
+      tableId: RatKingLoot
   - type: MobsterAccent
   - type: Speech
     speechVerb: SmallMob
+  - type: Absorbable # imp edit - big rat
+    biomassRestored: 0.6
   - type: Butcherable
     spawned:
     - id: ClothingHeadHatFancyCrown #how did that get there?
@@ -113,8 +123,9 @@
     price: 2500 # rat wealth
   - type: RandomMetadata
     nameSegments:
-    - RegalRatNameKingdom
-    - RegalRatNameTitle
+    - NamesRegalratKingdom
+    - NamesRegalratTitle
+    nameFormat: name-format-regal-rat
   - type: GuideHelp
     guides:
     - MinorAntagonists
@@ -122,6 +133,29 @@
     attributes:
       gender: male
   - type: Sharp
+  - type: Puller
+    needsHands: false
+  - type: Food #imp start
+    delay: 16
+    transferAmount: 50
+    trash:
+    - ClothingHeadHatFancyCrown
+  - type: FlavorProfile
+    flavors:
+    - meaty
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        reagents:
+        - ReagentId: UncookedAnimalProteins
+          Quantity: 50
+  - type: BadFood #imp end
+  - type: NightVision # EE edit
+    isActive: true
+    toggleAction: null
+    color: "#50595C"
+    activateSound: null
+    deactivateSound: null
 
 - type: entity
   id: MobRatKingBuff
@@ -147,11 +181,11 @@
     soundHit:
         path: /Audio/Weapons/Xeno/alien_claw_flesh2.ogg
     angle: 0
-    attackRate: 0.75
+    attackRate: 0.55
     animation: WeaponArcFist
     damage:
       types:
-        Blunt: 66 #oof ouch owie my bones
+        Blunt: 12 #no more oof ouch owie my bones (use the servants)
   - type: SlowOnDamage
     speedModifierThresholds:
       200: 0.7
@@ -167,6 +201,8 @@
   description: He's da mini rat. He don't make da roolz.
   categories: [ HideSpawnMenu ] #Must be configured to a King or the AI breaks.
   components:
+  - type: VentCrawler
+    enterDelay: 1
   - type: CombatMode
   - type: MovementSpeedModifier
     baseWalkSpeed : 3.5
@@ -199,7 +235,6 @@
     - map: [ "enum.DamageStateVisualLayers.BaseUnshaded"]
       state: eyes
       shader: unshaded
-
   - type: SpriteMovement
     movementLayers:
       movement:
@@ -265,6 +300,8 @@
         Base: dead
       Dead:
         Base: splat
+  - type: Absorbable # imp edit
+    biomassRestored: 0.1
   - type: Butcherable
     spawned:
     - id: FoodMeatRat
@@ -279,6 +316,8 @@
     tags:
       - CannotSuicide
       - FootstepSound
+      - MultitoolDefibrillatorTarget
+      - Meat #imp
   - type: NoSlip
   - type: MobPrice
     price: 500 # rat wealth
@@ -292,13 +331,34 @@
   - type: FireVisuals
     sprite: Mobs/Effects/onfire.rsi
     normalState: Mouse_burning
+  - type: Food #imp start
+  - type: FlavorProfile
+    flavors:
+    - meaty
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        reagents:
+        - ReagentId: UncookedAnimalProteins
+          Quantity: 5
+  - type: BadFood #imp end
+  - type: NightVision # EE edit
+    isActive: true
+    toggleAction: null
+    color: "#50595C"
+    activateSound: null
+    deactivateSound: null
 
-- type: weightedRandomEntity
+- type: entityTable
   id: RatKingLoot
-  weights:
-    RandomSpawner100: 66 #garbage
-    FoodCheese: 28 #food
-    IngotGold1: 5 #loot
+  table: !type:GroupSelector
+    children:
+    - id: RandomSpawner100 # garbage
+      weight: 66
+    - id: FoodCheese # food
+      weight: 28
+    - id: IngotGold1 # loot
+      weight: 5
 
 - type: entity
   id: ActionRatKingRaiseArmy
