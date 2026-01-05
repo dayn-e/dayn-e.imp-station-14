@@ -1,14 +1,16 @@
 - type: entity
-  name: hypersyringe
-  parent: [BaseItem, BaseMedicalContraband] # basemedicalcontraband?
+  name: Hyper Syringe
+  parent: [BaseItem, BaseMedicalContraband]
   id: HyperSyringe
-  description: This monstrosity seems like the epitome of medical malpractice. The injection mechanism seems to only go off with enough force applied.
-  components: # inkector for syringe, sharp?, puncture dmg, meleechemicalinjector
+  description: This monstrosity is the epitome of medical malpractice. The injection mechanism seems to only go off with enough force applied.
+  components:
   - type: EmbeddableProjectile
   - type: MeleeWeapon
+    wideAnimationRotation: -30
     damage:
       types:
         Piercing: 5
+    attackRate: 0.75
     animation: WeaponArcThrust
     soundHit:
       path: /Audio/Weapons/pierce.ogg
@@ -17,23 +19,39 @@
     damage:
       types:
         Piercing: 10
+        Structural: 20
   - type: Item
     size: Ginormous
-    sprite: # TODO add sprite
+    sprite: Objects/Weapons/Melee/fireaxe.rsi # TODO replace placeholder
   - type: SolutionContainerManager
     solutions:
       melee:
         maxVol: 45
   - type: MeleeChemicalInjector
+    transferAmount: 15
     solution: melee
   - type: RefillableSolution
     solution: melee
   - type: InjectableSolution
     solution: melee
   - type: SolutionInjectOnEmbed
-    transfer: 15
+    transferAmount: 30
     solution: melee
     blockSlots: OUTERCLOTHING
   - type: SolutionTransfer
-    maxTransferAmount: 45
+    maxTransferAmount: 5
+  - type: DamageOtherOnHit
+    meleeDamageMultiplier: 1.5
+    staminaCost: 18
+  - type: Clothing
+    sprite: Objects/Weapons/Melee/fireaxe.rsi # TODO replace placeholder
+    quickEquip: false
+    slots:
+    - back
+  - type: Sprite
+    sprite: Objects/Weapons/Melee/fireaxe.rsi # TODO replace placeholder
+    state: icon
+  - type: ExaminableSolution # TODO: Figure out how to display the unit count, if possible. Injector type perhaps? but then slow down the inject by a ton
+    solution: melee
+    exactVolume: true
 
