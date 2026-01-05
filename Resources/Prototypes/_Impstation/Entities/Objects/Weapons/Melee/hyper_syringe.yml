@@ -1,0 +1,39 @@
+- type: entity
+  name: hypersyringe
+  parent: [BaseItem, BaseMedicalContraband] # basemedicalcontraband?
+  id: HyperSyringe
+  description: This monstrosity seems like the epitome of medical malpractice. The injection mechanism seems to only go off with enough force applied.
+  components: # inkector for syringe, sharp?, puncture dmg, meleechemicalinjector
+  - type: EmbeddableProjectile
+  - type: MeleeWeapon
+    damage:
+      types:
+        Piercing: 5
+    animation: WeaponArcThrust
+    soundHit:
+      path: /Audio/Weapons/pierce.ogg
+  - type: Wieldable
+  - type: IncreaseDamageOnWield
+    damage:
+      types:
+        Piercing: 10
+  - type: Item
+    size: Ginormous
+    sprite: # TODO add sprite
+  - type: SolutionContainerManager
+    solutions:
+      melee:
+        maxVol: 45
+  - type: MeleeChemicalInjector
+    solution: melee
+  - type: RefillableSolution
+    solution: melee
+  - type: InjectableSolution
+    solution: melee
+  - type: SolutionInjectOnEmbed
+    transfer: 15
+    solution: melee
+    blockSlots: OUTERCLOTHING
+  - type: SolutionTransfer
+    maxTransferAmount: 45
+
