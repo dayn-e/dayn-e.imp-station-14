@@ -47,7 +47,7 @@
     maxTransferAmount: 5
   - type: DamageOtherOnHit
     meleeDamageMultiplier: 1.5
-    staminaCost: 18
+    staminaCost: 30
   - type: Clothing
     sprite: Objects/Weapons/Melee/fireaxe.rsi # TODO replace placeholder
     quickEquip: false
