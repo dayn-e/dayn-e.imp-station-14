@@ -4,16 +4,19 @@
   id: HyperdermicNeedle
   description: This monstrosity is the epitome of medical malpractice. The injection mechanism seems to only go off when enough force is applied. Maybe you should grab some gauze...
   components:
+  - type: Sharp
   - type: EmbeddableProjectile
   - type: ThrowingAngle
     angle: 315
+  - type: LandAtCursor
   - type: MeleeWeapon
-    wideAnimationRotation: -30
     damage:
       types:
         Piercing: 5
     attackRate: 0.6
     animation: WeaponArcThrust
+    angle: 0
+    wideAnimationRotation: -135
     soundHit:
       path: /Audio/Weapons/pierce.ogg
   - type: Wieldable
@@ -56,4 +59,15 @@
   - type: ExaminableSolution # TODO: Figure out how to display the unit count, if possible. Injector type perhaps? but then slow down the inject by a ton
     solution: melee
     exactVolume: true
+  - type: Spillable
+    solution: melee
+  - type: SolutionContainerVisuals
+    maxFillLevels: 0 # TODO Change on sprite change?
+    solutionName: melee
+  - type: SolutionItemStatus
+    solution: melee
+  - type: UserInterface
+    interfaces:
+      enum.TransferAmountUiKey.Key:
+        type: TransferAmountBoundUserInterface
 # TODO: Add spillable, figure out how to showcase the contents on the icon. check beaker yml logic?
