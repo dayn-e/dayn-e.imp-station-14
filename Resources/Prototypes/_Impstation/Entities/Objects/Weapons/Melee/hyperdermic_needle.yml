@@ -1,16 +1,18 @@
 - type: entity
-  name: Hyper Syringe
+  name: Hyperdermic Needle
   parent: [BaseItem, BaseMedicalContraband]
-  id: HyperSyringe
-  description: This monstrosity is the epitome of medical malpractice. The injection mechanism seems to only go off with enough force applied.
+  id: HyperdermicNeedle
+  description: This monstrosity is the epitome of medical malpractice. The injection mechanism seems to only go off when enough force is applied. Maybe you should grab some gauze...
   components:
   - type: EmbeddableProjectile
+  - type: ThrowingAngle
+    angle: 315
   - type: MeleeWeapon
     wideAnimationRotation: -30
     damage:
       types:
         Piercing: 5
-    attackRate: 0.75
+    attackRate: 0.6
     animation: WeaponArcThrust
     soundHit:
       path: /Audio/Weapons/pierce.ogg
@@ -18,7 +20,7 @@
   - type: IncreaseDamageOnWield
     damage:
       types:
-        Piercing: 10
+        Piercing: 7
         Structural: 20
   - type: Item
     size: Ginormous
@@ -26,16 +28,16 @@
   - type: SolutionContainerManager
     solutions:
       melee:
-        maxVol: 45
+        maxVol: 120
   - type: MeleeChemicalInjector
-    transferAmount: 15
+    transferAmount: 15 # How many units on melee hit
     solution: melee
   - type: RefillableSolution
     solution: melee
   - type: InjectableSolution
     solution: melee
   - type: SolutionInjectOnEmbed
-    transferAmount: 30
+    transferAmount: 30 # How many units on a sucessful throw & embed
     solution: melee
     blockSlots: OUTERCLOTHING
   - type: SolutionTransfer
@@ -54,4 +56,4 @@
   - type: ExaminableSolution # TODO: Figure out how to display the unit count, if possible. Injector type perhaps? but then slow down the inject by a ton
     solution: melee
     exactVolume: true
-
+# TODO: Add spillable, figure out how to showcase the contents on the icon. check beaker yml logic?
